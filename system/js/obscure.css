@@ -1,0 +1,176 @@
+#oscura {
+    background-color:black;
+    display: none;   
+    
+    filter:alpha(opacity=60);
+    opacity:0;
+    position:absolute;
+    top:0;bottom:0;right:0;left:0;
+    width:100%;
+    z-index:9000;
+}
+
+#notify
+{
+    opacity:100;
+    width: 400px;
+    background-color: white;
+    display:none;
+    position:fixed;top:30%;left:50%;
+    margin:-100px 0 0 -175px;
+    z-index:9001;
+}
+
+.forum
+{ background: #FFFFFF;
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+  border: solid 1px Blue;
+  color: #484E56;
+}
+
+#dash {
+    background:transparent none repeat scroll 0% 0%;
+    color: white;
+    text-align:center;
+    padding:0px;
+    position:fixed;
+    top:0pt;
+    width:100%;
+    z-index:99;
+}
+h1.dash{
+    
+}
+#dash1 {
+    background:transparent none repeat scroll 0% 0%;
+    text-align:center;
+    padding:0px;
+    position:fixed;
+    bottom:0pt;
+    width:100%;
+    z-index:99;
+}
+
+#toppanel {
+    background:#000000 none repeat scroll 0% 0%;
+    display:none;
+    opacity: 1;
+
+}
+
+#toppanel1{
+    background:#000000 none repeat scroll 0% 0%;
+    display:none;
+    height: 150px; width: 100%;
+    overflow:auto;
+    opacity: 1;
+    padding-left: 10px;
+    height: 150px;
+    clear: both;
+}
+/*
+div#toppanel1 ul {
+    list-style:none outside none;
+    position:relative;
+        display: inline;
+}
+div#toppanel1 li.widget {
+    position:relative;
+    display: inline;
+    float: left;
+padding-right: 5px;
+    
+}
+*/
+#m {
+    background:transparent url(../images/trigger_m.png) repeat-x scroll 100% 0pt;
+    color:#FFFFFF;
+    float:left;
+    font-size:85%;
+    height:19px;
+    line-height:18px;
+    overflow:hidden;
+    text-align:center;
+    width:80px;
+}
+
+#r {
+    background:transparent url(../images/trigger_r.png) repeat-x scroll 100% 0pt;
+    float:left;
+    height:19px;
+    width:20px;
+}
+
+#l {
+    background:transparent url(../images/trigger_l.png) repeat-x scroll 100% 0pt;
+    float:left;
+    height:19px;
+    width:20px;
+}
+
+#m1 {
+    background:transparent url(../images/trigger_m1.png) repeat-x scroll 100% 0pt;
+    color:#FFFFFF;
+    float:left;
+    font-size:85%;
+    height:19px;
+    line-height:18px;
+    overflow:hidden;
+    text-align:center;
+    width:80px;
+}
+#r1 {
+    background:transparent url(../images/trigger_r1.png) repeat-x scroll 100% 0pt;
+    float:left;
+    height:19px;
+    width:20px;
+}
+
+#l1 {
+    background:transparent url(../images/trigger_l1.png) repeat-x scroll 100% 0pt;
+    float:left;
+    height:19px;
+    width:20px;
+}
+ul.dash{
+background:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAARCAIAAACaSvE/AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAE1JREFUeNqEjVEKACAIQ516Ee//5wVNCjIjaB/iY5vC3YkoIgDkVDOjQ5pqLCI3r2bLFzNzyydvM4uKqfJPKN4vyl9LO/7o3/6PhwADAIWkFPjc5eRrAAAAAElFTkSuQmCC") repeat-x scroll 0 0 #EEEEEE;
+display:block;
+margin:0;
+max-height:250px;
+overflow:auto;
+padding:0;
+position:relative;
+list-style-position:outside;
+list-style-type:none;
+margin:0;
+padding:0;
+}
+ul.uldash  {
+}
+li.dash{
+text-align: left;
+border-bottom:1px solid #DDDDDD;
+color:#555555;
+display:block;
+max-height:32px;
+min-height:32px;
+font-size:12px;
+line-height:10px;
+list-style-type:none;
+overflow:hidden;
+padding:0 0px;
+position:relative;
+white-space:pre;
+}
+.right{
+    float:right;
+    padding-right: 10px;
+}
+.red{
+    color:maroon;
+}
+.green{
+    color:darkgreen;
+}

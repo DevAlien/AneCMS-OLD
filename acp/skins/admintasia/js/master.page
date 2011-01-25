@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<title>Admintasia v2</title>
+	<script type="text/javascript" src="./skins/admintasia/js/jquery-1.4.2.js"></script>
+	<script type="text/javascript" src="./skins/admintasia/js/ui/ui.core.js"></script>
+	<script type="text/javascript" src="./skins/admintasia/js/ui/ui.widget.js"></script>
+	<script type="text/javascript" src="./skins/admintasia/js/ui/ui.mouse.js"></script>
+	<script type="text/javascript" src="./skins/admintasia/js/superfish.js"></script>
+	<script type="text/javascript" src="./skins/admintasia/js/live_search.js"></script>
+	<script type="text/javascript" src="./skins/admintasia/js/tooltip.js"></script>
+	<script type="text/javascript" src="./skins/admintasia/js/cookie.js"></script>
+	<script type="text/javascript" src="./skins/admintasia/js/ui/ui.sortable.js"></script>
+	<script type="text/javascript" src="./skins/admintasia/js/ui/ui.draggable.js"></script>
+	<script type="text/javascript" src="./skins/admintasia/js/ui/ui.resizable.js"></script>
+	<script type="text/javascript" src="./skins/admintasia/js/ui/ui.position.js"></script>
+	<script type="text/javascript" src="./skins/admintasia/js/ui/ui.button.js"></script>
+	<script type="text/javascript" src="./skins/admintasia/js/ui/ui.dialog.js"></script>
+	<script type="text/javascript" src="./skins/admintasia/js/custom.js"></script>
+	
+	<link href="./skins/admintasia/css/ui/ui.base.css" rel="stylesheet" media="all" />
+
+	<link href="./skins/admintasia/css/themes/black_rose/ui.css" rel="stylesheet" title="style" media="all" />
+
+	<!--[if IE 6]>
+	<link href="css/ie6.css" rel="stylesheet" media="all" />
+	
+	<script src="js/pngfix.js"></script>
+	<script>
+	  /* Fix IE6 Transparent PNG */
+	  DD_belatedPNG.fix('.logo, .other ul#dashboard-buttons li a');
+
+	</script>
+	<![endif]-->
+	<!--[if IE 7]>
+	<link href="css/ie7.css" rel="stylesheet" media="all" />
+	<![endif]-->
+</head>
+<body id="sidebar-left">
+		{systemhtml}
+	<div id="page_wrapper">
+		<div id="page-header">
+			<div id="page-header-wrapper">
+				<div id="top">
+					<a href="dashboard.php" class="logo" title="AneCMS">AneCMS</a>
+					<div class="welcome">
+						<span class="note">Welcome, <a href="#" title="Welcome, Horia Simon">Goncalo Margalho</a></span>
+						<!--<a class="btn ui-state-default ui-corner-all" href="#">
+							<span class="ui-icon ui-icon-wrench"></span>
+							Settings
+						</a>
+						<a class="btn ui-state-default ui-corner-all" href="#">
+							<span class="ui-icon ui-icon-person"></span>
+							My account
+						</a>-->
+						<a class="btn ui-state-default ui-corner-all" href="../index.php">
+							<span class="ui-icon ui-icon-power"></span>
+							{lang.cms}
+						</a>						
+					</div>
+				</div>
+				<ul id="navigation">
+				<li><a href="index.php">{lang.dashboard}</a></li>
+        	<li><a href="?p=cfg">{lang.configuration}</a></li>
+        	<li><a href="?p=tpl">{lang.design}</a></li>
+        	<li><a href="?p=mod">{lang.modules}</a></li>
+					</ul>
+				<!--<div id="search-bar">
+					<form method="post" action="http://www.google.com/">
+						<input type="text" name="q" value="live search demo" />
+					</form>
+				</div>-->
+			</div>
+		</div>
+		
+		<div id="page-layout">
+			<div id="page-content">
+				<div id="page-content-wrapper">
+					{content name="main"}{/content}
+					<div class="clearfix"></div>
+					<!--SIDEBAR-->
+							<div id="sidebar">
+			<div class="sidebar-content">
+			{content name="sidebar"}
+				<a id="close_sidebar" class="btn ui-state-default full-link ui-corner-all" href="#drill">
+					<span class="ui-icon ui-icon-circle-arrow-e"></span>
+					Close Sidebar
+				</a>
+				<a id="open_sidebar" class="btn tooltip ui-state-default full-link icon-only ui-corner-all" title="Open Sidebar" href="#"><span class="ui-icon ui-icon-circle-arrow-w"></span></a>
+				<div class="hide_sidebar">
+					<div class="portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+						<div class="portlet-header ui-widget-header">Dash Menu<span class="ui-icon ui-icon-circle-arrow-s"></span></div>
+						<div class="portlet-content">
+							<ul id="style-switcher" class="side-menu">
+								{loop name="sidenav"}
+                                                <li><a href="{$sidenav.link}"><?php echo $lang[ [$sidenav.name] ];?></a></li>
+	    {/loop}
+							</ul>
+						</div>
+					</div>
+				</div>
+				{/content}
+			</div>
+		</div>
+		<div class="clear"></div>
+				</div>
+				<div class="clear"></div>
+			</div>
+		</div>
+	<div class="clear"></div>
+	<div id="footer">
+		<a href="#" title="Home">Home</a> | 
+		<a href="#" title="Register">Register</a> | 
+		<a href="#" title="Members Login">Members Login</a> | 
+		<a href="#" title="About us">About us</a> | 
+		<a href="#" title="Example link">Example link</a>
+	</div>
+<!-- Do not remove the copyright notice unless you have purchased a Commercial License from admintasia.com -->
+	<div id="copyright">
+		Powered by <a href="http://www.admintasia.com" title="Powerful admin UI template">Admintasia.com</a>
+	</div>
+<!-- Do not remove the copyright notice unless you have purchased a Commercial License from admintasia.com -->
+</div>
+{onloadjs}
+</body>
+</html>

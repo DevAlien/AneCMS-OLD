@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>{title}</title>
+{jsandcss js="" css="skins/default/style.css"}
+</head>
+
+<body>
+{systemhtml}
+<div id="wrap">
+<div id="header">
+<div id="topnav">
+<ul>
+	{loop name="top_menu"}
+		<li><a href="{qg.url_base}{$top_menu.link}">{$top_menu.name}</a></li>
+        {/loop}
+</ul>
+</div>
+<h1 id="sitename"><a href="#">{$site_title}</a><span class="caption">{$sub_site_title}</span> </h1>
+</div>
+<div id="content">
+<div id="left">
+{content name="main"}{/content}
+</div>
+<div id="sidebar">
+{content name="right"}
+<ul style="margin: -10px" id="right">
+{widgets area="right"}
+</ul>
+{/content}
+</div>
+<div class="clear"></div>
+</div>
+<div id="pagebottom"></div>
+
+<div id="footer">
+<p>Powered By <a href="http://anecms.com">AneCMS</a> &copy;2006 - 2011 | <a href="http://ramblingsoul.com">CSS Template</a> by Ramblingsoul </p>
+
+</div>
+</div>
+{onloadjs}
+</body>
+</html>

@@ -51,16 +51,16 @@ if($qgeneral['status'] == 0  && !defined('ACCESS') && (!isset($user) || !$user->
     $closed = true;
 
 init::loadBasicPreferences();
-$tpl = new Template($skin);
-$tpl->addJavascript('system/js/jquery-1.4.2.min.js');
-$tpl->addJavascript('system/js/jquery.jgrowl_minimized.js');
-$tpl->addJavascript('system/js/jquery.dragsort-0.4.min.js');
-//$tpl->addCSSFile('system/js/jquery.jgrowl.css');
-$tpl->addJavascript('system/js/main.js');
-$tpl->addCSSFile('system/js/obscure.css');
-$tpl->addOnLoadJS('<?php if(is_a($user, \'User\') && $user->isOnGroup(\'Administrator\')){?> $("#m").click(function(event) { event.preventDefault(); $("#toppanel").slideToggle();});<?php } ?>');
-$tpl->addOnLoadJS('<?php if(is_a($user, \'User\') && $user->isOnGroup(\'Administrator\')){?> $("#m1").click(function(event) { event.preventDefault(); $("#toppanel1").slideToggle();});<?php } ?>');
-$tpl->addSystemHTML('<?php if(is_a($user, \'User\') && $user->isOnGroup(\'Administrator\')){ ?> <div id="dash"><div id="toppanel"><?php if(isset($_GET[\'mode\'])) Modules::loadMiniACPModule($_GET[\'mode\']); else Modules::loadMiniACPModule(\'DEFAULT\'); ?></div><div id="dash2" style="left: 50%; margin: auto; cursor:pointer; top:0px; width:120px;"><div id="l" style=""></div><div id="m">Toppanel</div><div id="r" style=""></div></div></div><?php } ?><div id="oscura"></div><div id="notify"></div>');
-$tpl->addSystemHTML('<?php if(is_a($user, \'User\') && $user->isOnGroup(\'Administrator\') && isset($_GET[\'modifywidgets\'])){ ?> <div id="dash1"><div id="dash3" style="left: 50%; margin: auto; cursor:pointer; top:0px; width:120px;"><div id="l1" style=""></div><div id="m1">Widgets</div><div id="r1" style=""></div></div><div id="toppanel1"><input type="button" value="Press Me" name="foo" onClick="updateWidgets(\''.$qgeneral['url_base'].'\')"><br /><ul id="widgetselector"><?php $widgets = new widget(); $widgets->includeAllWidgets(); ?></ul></div></div><?php } ?>');
-
+if(!defined('RSS') || !defined('XMLRPC')){
+  $tpl = new Template($skin);
+  $tpl->addJavascript('system/js/jquery-1.4.2.min.js');
+  $tpl->addJavascript('system/js/jquery.jgrowl_minimized.js');
+  $tpl->addJavascript('system/js/jquery.dragsort-0.4.min.js');
+  $tpl->addJavascript('system/js/main.js');
+  $tpl->addCSSFile('system/js/obscure.css');
+  $tpl->addOnLoadJS('<?php if(is_a($user, \'User\') && $user->isOnGroup(\'Administrator\')){?> $("#m").click(function(event) { event.preventDefault(); $("#toppanel").slideToggle();});<?php } ?>');
+  $tpl->addOnLoadJS('<?php if(is_a($user, \'User\') && $user->isOnGroup(\'Administrator\')){?> $("#m1").click(function(event) { event.preventDefault(); $("#toppanel1").slideToggle();});<?php } ?>');
+  $tpl->addSystemHTML('<?php if(is_a($user, \'User\') && $user->isOnGroup(\'Administrator\')){ ?> <div id="dash"><div id="toppanel"><?php if(isset($_GET[\'mode\'])) Modules::loadMiniACPModule($_GET[\'mode\']); else Modules::loadMiniACPModule(\'DEFAULT\'); ?></div><div id="dash2" style="left: 50%; margin: auto; cursor:pointer; top:0px; width:120px;"><div id="l" style=""></div><div id="m">Toppanel</div><div id="r" style=""></div></div></div><?php } ?><div id="oscura"></div><div id="notify"></div>');
+  $tpl->addSystemHTML('<?php if(is_a($user, \'User\') && $user->isOnGroup(\'Administrator\') && isset($_GET[\'modifywidgets\'])){ ?> <div id="dash1"><div id="dash3" style="left: 50%; margin: auto; cursor:pointer; top:0px; width:120px;"><div id="l1" style=""></div><div id="m1">Widgets</div><div id="r1" style=""></div></div><div id="toppanel1"><input type="button" value="Press Me" name="foo" onClick="updateWidgets(\''.$qgeneral['url_base'].'\')"><br /><ul id="widgetselector"><?php $widgets = new widget(); $widgets->includeAllWidgets(); ?></ul></div></div><?php } ?>');
+}
 ?>

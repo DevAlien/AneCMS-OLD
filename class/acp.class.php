@@ -50,7 +50,7 @@ class acp {
      */
     public static function saveNote($txt) {
         global $db, $database, $lang;
-        $db->query('UPDATE '.$database['tbl_prefix'].'dev_general SET notes = \''.Tools::string_escape($txt).'\' WHERE id =0');
+        $db->query('UPDATE '.$database['tbl_prefix'].'dev_general SET notes = ? WHERE id = ?', DBDriver::QUERY, array($txt, 0));
         ACP::addLog($lang['updatenote']);
     }
 
@@ -64,7 +64,7 @@ class acp {
      */
     public static function addLog($txt) {
         global $db, $user, $database;
-        $db->query('INSERT INTO '.$database['tbl_prefix'].'dev_adminlog (user ,date ,text ,ip) VALUES ('.$user->getValues('id').', '.time().', \''.TOOLS::string_escapeForce($txt).'\', \''.$_SERVER['REMOTE_ADDR'].'\')');
+        $db->query('INSERT INTO '.$database['tbl_prefix'].'dev_adminlog (user ,date ,text ,ip) VALUES (?,?,?,?)', DBDriver::QUERY, array($user->getValues('id'), time(), $txt, $_SERVER['REMOTE_ADDR']));
     }
 
     /**
@@ -76,11 +76,11 @@ class acp {
      */
     public static function setMenuUpPosition($id) {
         global $db, $database;
-        $linktodown = $db->query_array('SELECT * FROM '.$database['tbl_prefix'].'dev_menus WHERE id = '.$id);
+        $linktodown = $db->query('SELECT * FROM '.$database['tbl_prefix'].'dev_menus WHERE id = ?', DBDriver::AARRAY, array($id));
         $position1 = $linktodown['position'] - 1;
-        $link = $db->query_array('SELECT id FROM '.$database['tbl_prefix'].'dev_menus WHERE type = '.$linktodown['type'].' AND position = '.$position1);
-        $db->query('UPDATE '.$database['tbl_prefix'].'dev_menus SET position = '.$linktodown['position'].' WHERE id = '.$link['id']);
-        $db->query('UPDATE '.$database['tbl_prefix'].'dev_menus SET position = '.$position1.' WHERE id = '.$id);
+        $link = $db->query('SELECT id FROM '.$database['tbl_prefix'].'dev_menus WHERE type = ? AND position = ?', DBDriver::AARRAY, array($linktodown['type'], $position1));
+        $db->query('UPDATE '.$database['tbl_prefix'].'dev_menus SET position = ? WHERE id = ?'., DBDriver::QUERY, array($linktodown['position'], $link['id']));
+        $db->query('UPDATE '.$database['tbl_prefix'].'dev_menus SET position = ? WHERE id = ?', DBDriver::QUERY, array($position1, $id));
     }
 
     /**
@@ -93,11 +93,11 @@ class acp {
     public static function setMenuDownPosition($id) {
         global $db, $database;
 
-        $linktodown = $db->query_array('SELECT * FROM '.$database['tbl_prefix'].'dev_menus WHERE id = '.$id);
+		$linktodown = $db->query('SELECT * FROM '.$database['tbl_prefix'].'dev_menus WHERE id = ?', DBDriver::AARRAY, array($id));
         $position1 = $linktodown['position'] + 1;
-        $link = $db->query_array('SELECT id FROM '.$database['tbl_prefix'].'dev_menus WHERE type = '.$linktodown['type'].' AND position = '.$position1);
-        $db->query('UPDATE '.$database['tbl_prefix'].'dev_menus SET position = '.$linktodown['position'].' WHERE id = '.$link['id']);
-        $db->query('UPDATE '.$database['tbl_prefix'].'dev_menus SET position = '.$position1.' WHERE id = '.$id);
+        $link = $db->query('SELECT id FROM '.$database['tbl_prefix'].'dev_menus WHERE type = ? AND position = ?', DBDriver::AARRAY, array($linktodown['type'], $position1));
+        $db->query('UPDATE '.$database['tbl_prefix'].'dev_menus SET position = ? WHERE id = ?'., DBDriver::QUERY, array($linktodown['position'], $link['id']));
+        $db->query('UPDATE '.$database['tbl_prefix'].'dev_menus SET position = ? WHERE id = ?', DBDriver::QUERY, array($position1, $id));
     }
 
     /**
@@ -110,7 +110,7 @@ class acp {
      */
     public static function getNextPosition($type) {
         global $db, $database;
-        $position = $db->query_array('SELECT MAX( position ) as maxposition FROM '.$database['tbl_prefix'].'dev_menus WHERE type = '.$type);
+        $position = $db->query('SELECT MAX( position ) as maxposition FROM '.$database['tbl_prefix'].'dev_menus WHERE type = ?', DBDriver::QUERY, array($type));
         return $position['maxposition']+1;
     }
 

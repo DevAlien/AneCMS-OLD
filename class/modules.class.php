@@ -36,7 +36,7 @@ class Modules {
         global $db, $tpl, $qgeneral, $database, $user, $skin, $lang;
         if($name == 'DEFAULT' && file_exists('./modules/'.$qgeneral['default_module'].'/index.php'))
             include './modules/'.$qgeneral['default_module'].'/index.php';
-        else if(isset($name) && $db->query_count('SELECT id FROM '.$database['tbl_prefix'].'dev_modules WHERE name = "'.$name.'" AND type = 1 AND status = 1') != 0 && file_exists('./modules/'.$name.'/index.php'))
+        else if(isset($name) && $db->query('SELECT id FROM '.$database['tbl_prefix'].'dev_modules WHERE name = ? AND type = ? AND status = ?', DBDriver::COUNT, array($name, 1, 1)) != 0 && file_exists('./modules/'.$name.'/index.php'))
             include './modules/'.$name.'/index.php';
         else {
             $tpl->assign('typeerror', $lang['err_nomod']);
@@ -61,7 +61,7 @@ class Modules {
         global $db, $tpl, $qgeneral, $database, $user, $skin, $lang;
         if($name == 'DEFAULT')
             include '../modules/'.$qgeneral['default_module'].'/index.php';
-        else if(isset($name) && $db->query_count('SELECT id FROM '.$database['tbl_prefix'].'dev_modules WHERE name = "'.$name.'" AND type = 1') != 0)
+        else if(isset($name) && $db->query('SELECT id FROM '.$database['tbl_prefix'].'dev_modules WHERE name = ? AND type = ?', DBDriver::COUNT, array($name, 1)) != 0)
             include '../modules/'.$name.'/admin/index.php';
         else {
             $tpl->assign('typeerror', $lang['err_nomod']);
@@ -90,7 +90,7 @@ class Modules {
             else
                 return false;
         }
-        else if(isset($name) && $db->query_count('SELECT id FROM '.$database['tbl_prefix'].'dev_modules WHERE name = "'.$name.'" AND type = 1 AND status = 1') != 0 && file_exists('./modules/'.$name.'/miniACP/index.php')) {
+        else if(isset($name) && $db->query('SELECT id FROM '.$database['tbl_prefix'].'dev_modules WHERE name = ? AND type = ? AND status = ?', DBDriver::COUNT, array($name, 1, 1)) != 0 && file_exists('./modules/'.$name.'/miniACP/index.php')) {
             include './modules/'.$name.'/miniACP/index.php';
             return true;
         }
@@ -107,7 +107,7 @@ class Modules {
      */
     public static function loadBackgroundModules() {
         global $db, $tpl, $qgeneral, $database, $user, $skin, $lang;
-        foreach($db->query_list('SELECT name FROM '.$database['tbl_prefix'].'dev_modules WHERE status = 1 AND type = 3') as $key => $module)
+        foreach($db->query('SELECT name FROM '.$database['tbl_prefix'].'dev_modules WHERE status = ? AND type = ?', DBDriver::ALIST, array(1, 3)) as $key => $module)
             include './modules/'.$module['name'].'/index.php';
     }
 
@@ -119,7 +119,7 @@ class Modules {
      */
     public static function getListModules() {
         global $db;
-        return $db->query_list('Select * From '.$database['tbl_prefix'].'modules ');
+        return $db->query('Select * From '.$database['tbl_prefix'].'modules ', DBDriver::ALIST);
     }
 
     /**
@@ -132,7 +132,7 @@ class Modules {
      */
     public static function disableModule($id) {
         global $db, $database;
-        return $db->query('Update '.$database['tbl_prefix'].'dev_modules set status = 0 where id = '.$id);
+        return $db->query('Update '.$database['tbl_prefix'].'dev_modules set status = ? where id = ?', DBDriver::QUERY, array(0, $id));
     }
 
     /**
@@ -145,13 +145,13 @@ class Modules {
      */
     public static function activeModule($id) {
         global $db, $database;
-        return $db->query('Update '.$database['tbl_prefix'].'dev_modules set status = 1 where id = '.$id);
+        return $db->query('Update '.$database['tbl_prefix'].'dev_modules set status = ? where id = ?', DBDriver::QUERY, array(1, $id));
     }
 
     public static function isAModule($name) {
         global $db, $database;
 
-        if(isset($name) && $db->query_count('SELECT id FROM '.$database['tbl_prefix'].'dev_modules WHERE name = "'.$name.'" AND status = 1') != 0)
+        if(isset($name) && $db->query('SELECT id FROM '.$database['tbl_prefix'].'dev_modules WHERE name = ? AND status = ?', DBDriver::COUNT, array($name, 1)) != 0)
             return true;
         else
             return false;

@@ -140,7 +140,7 @@ class Init {
     public function selectTypeDatabase($type) {
         global $database;
         if(include 'db/' . $type . '.class.php')
-            return new $type($database['server'], $database['user'], $database['password'], $database['name']);
+            return new DBDriver($database['server'], $database['user'], $database['password'], $database['name']);
         else {
             die($lang['nodbdriver']);
         }

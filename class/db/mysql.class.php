@@ -9,6 +9,7 @@
  * @version 1.0
  */
 define( 'SQL_CACHE_DIRECTORY', dirname(__FILE__).'/../../tmp/cache/sql' );
+define('DRIVERNAME', 'MySQL');
 
 global $nquery, $ncached_query, $sql_debug;
 $nquery = 0;
@@ -24,8 +25,14 @@ $sql_debug = true;
  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU Public License
  * @version 1.0
  */
-class mysql {
+class DBDriver {
 
+
+	const QUERY = 'query';
+	const ALIST = 'list';
+	const AARRAY = 'array';
+	const COUNT = 'count';
+	const LASTID = 'lastid';
     /**
      * meter of functions
      *
@@ -59,14 +66,41 @@ class mysql {
             return mysql_select_db( $database ) or die ( mysql_error() );
         }
     }
-
+	
+	public function query($query, $type = self::QUERY, $parameters = array(), $cache = false) {
+        foreach ($parameters as $param) {
+            $param = '\'' . $this->sqlEscape($param) . '\'';
+            $query = substr_replace(
+                $query, $param, strpos($query, '?'), 1
+            );
+        }
+		switch ($type) {
+			case self::QUERY:
+				return $this->queryExecute($query);
+				break;
+			case self::ALIST:
+				return $this->queryList($query, $cache);
+				break;
+			case self::AARRAY:
+				return $this->queryArray($query, $cache);
+				break;
+			case self::COUNT:
+				return $this->queryCount($query);
+				break;
+			case self::LASTID:
+				return $this->queryLastId($query);
+				break;
+			default:
+				return 'ERROR';
+		}
+    }
     /**
      * Make a query
      *
      * @param string $query Query to make
      * @return mixed|trigger_error
      */
-    public function query( $query ) {
+    private function queryExecute( $query ) {
         global $nquery, $sql_debug, $debug;
         $this->queries .= "<font style=\"color: orange;\" size=\"-1\">Query: </font><i>$query</i><br>";
         $this->sql_function_level++;
@@ -95,8 +129,7 @@ class mysql {
      * @param string $query Query to Make
      * @return array
      */
-    public function query_array( $query, $cache = FALSE ) {
-
+    private function queryArray( $query, $cache = FALSE ) {
         if( $cache AND file_exists( $file_cache = ( SQL_CACHE_DIRECTORY . "/sql_" . ( $hash = md5( $query ) ) . ".php" ) ) ) {
             $this->queries .= "<font style=\"color: green;\" size=\"-1\">Cached Query: </font><i>{$query}</i><br>";
             include_once( $file_cache );
@@ -105,7 +138,7 @@ class mysql {
         }
 
         $this->sql_function_level++;
-        if( $result = $this->query( $query ) ) {
+        if( $result = $this->queryExecute( $query ) ) {
             $query_array = mysql_fetch_array( $result, MYSQL_ASSOC);
 
             if( $cache && is_writable(SQL_CACHE_DIRECTORY) ) {
@@ -126,7 +159,7 @@ class mysql {
      * @param string $query Query to Make
      * @return array
      */
-    public function query_list( $query, $cache = false ) {
+    private function queryList( $query, $cache = false ) {
 
         if( $cache AND file_exists( $file_cache = ( SQL_CACHE_DIRECTORY . "/sql_" . ( $hash = md5( $query ) ) . ".php" ) ) ) {
             $this->queries .= "<font style=\"color: green;\" size=\"-1\">Cached Query: </font><i>{$query}</i><br>";
@@ -136,7 +169,7 @@ class mysql {
         }
 
         $this->sql_function_level++;
-        if( $result = $this->query( $query ) ) {
+        if( $result = $this->queryExecute( $query ) ) {
             $query_list = array( );
             while( $row = mysql_fetch_array( $result, MYSQL_ASSOC ) )
                 $query_list[ ] = $row;
@@ -158,14 +191,14 @@ class mysql {
      * @param string $query Query to Make
      * @return integer
      */
-    public function query_count( $query ) {
+    private function queryCount( $query ) {
         $this->sql_function_level++;
         return mysql_num_rows( mysql_query( $query ) );
     }
     
-    public function query_id( $query ){
+    private function queryLastId( $query ){
       $this->sql_function_level++;
-      $this->query($query);
+      $this->queryExecute($query);
       return mysql_insert_id( $this->db_link );
     }
 
@@ -231,11 +264,11 @@ class mysql {
         return mysql_close( $this->db_link );
     }
 
-    public function sql_escape($msg) {
+    public function sqlEscape($msg) {
         if(get_magic_quotes_gpc())
             return $msg;
         else
-            return @mysql_real_escape_string($msg);
+            return mysql_real_escape_string($msg);
     }
 
     public function getQueries(){
@@ -267,5 +300,6 @@ class mysql {
         $error_html .= "</div></div><br>";
         return $error_html;
     }
+	
 }
 ?>

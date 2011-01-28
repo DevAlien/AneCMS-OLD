@@ -109,7 +109,7 @@ class installModule {
     private function setTemplateFiles() {
         global $db, $database;
         if(file_exists('../modules/'.$this->name.'/install/tpl/'))
-            $themes = $db->query_list('SELECT * FROM '.$database['tbl_prefix'].'dev_themes');
+            $themes = $db->query('SELECT * FROM '.$database['tbl_prefix'].'dev_themes', DBDriver::ALIST);
         foreach($themes as $key => $value) {
             if($value['type'] == 1)
                 $this->copyTplFiles(1, '../skins/'.$value['name'].'/');

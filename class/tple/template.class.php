@@ -185,7 +185,7 @@ public function setTplDir($tpldir, $tplname){
      */
     private function compileTPL($template_dir, $tpl_name, $withMasterpage) {
         if(is_writable( './tmp/cache/'.$template_dir))
-            if($file = glob( $template_dir . '/' . $tpl_name . '*.php' ))
+            if($file = glob( $this->getCompiledDir() . '/' . $tpl_name . '*.php' ))
                 foreach( $file as $delfile)
                     unlink($delfile);
 
@@ -227,6 +227,7 @@ public function setTplDir($tpldir, $tplname){
         $compiling = str_replace('{/if}', '<?php } ?>',$compiling);
         $compiling = preg_replace('/(?:{loop(?:\s+)name="(.*?)"})/', '<?php $counter_\\1=0; foreach($var[\'\\1\'] as $key => $\\1){ $counter_\\1++; ?>',$compiling);
         $compiling = str_replace('{/loop}', '<?php } ?>',$compiling);
+		$compiling = preg_replace_callback('/{jsandcss(?:\s+)js="(.*?)"(?:\s+)css="(.*?)"}/', array( &$this, 'getJSAndCSS'), $compiling);
         if($tpl_name != 'master.page')
             $compiling = preg_replace_callback('/(?:{content(?:\s+)name="(.*?)"}([\S|\s]*?){\/content})/', array( &$this, 'setFileContent'), $compiling);
 
@@ -268,7 +269,7 @@ public function setTplDir($tpldir, $tplname){
             else {
                 $this->compileTPL($this->tpl_dir, $tpl_name . '.' . $ext, $withMasterpage);
                 if($withMasterpage == true) {
-                    $theme = $db->query_array('SELECT css FROM '.$database['tbl_prefix'].'dev_themes where name = \''.$this->name.'\'');
+                    $theme = $db->query('SELECT css FROM '.$database['tbl_prefix'].'dev_themes where name = ?', DBDriver::AARRAY, array($this->name));
                     if($theme['css'] != '') $this->addCSSFile($theme['css']);
                     $this->compileMasterpage();
                 }
@@ -301,7 +302,7 @@ public function setTplDir($tpldir, $tplname){
     private function prepareWidgets() {
         global $db, $database;
 
-        $WidgetsList = $db->query_list('Select '.$database['tbl_prefix'].'dev_themewidgets.widgetarea, '.$database['tbl_prefix'].'dev_themewidgets.widgetname From '.$database['tbl_prefix'].'dev_themewidgets Inner Join '.$database['tbl_prefix'].'dev_themes On '.$database['tbl_prefix'].'dev_themewidgets.idtheme = '.$database['tbl_prefix'].'dev_themes.id WHERE '.$database['tbl_prefix'].'dev_themes.name = \''.$this->name.'\'ORDER BY '.$database['tbl_prefix'].'dev_themewidgets.position asc ');
+        $WidgetsList = $db->query('Select '.$database['tbl_prefix'].'dev_themewidgets.widgetarea, '.$database['tbl_prefix'].'dev_themewidgets.widgetname From '.$database['tbl_prefix'].'dev_themewidgets Inner Join '.$database['tbl_prefix'].'dev_themes On '.$database['tbl_prefix'].'dev_themewidgets.idtheme = '.$database['tbl_prefix'].'dev_themes.id WHERE '.$database['tbl_prefix'].'dev_themes.name = ? ORDER BY '.$database['tbl_prefix'].'dev_themewidgets.position asc ', DBDriver::ALIST, array($this->name));
         foreach($WidgetsList as $key => $value)
             $this->widgets[$value['widgetarea']][] = $value['widgetname'];
     }
@@ -398,7 +399,6 @@ public function setTplDir($tpldir, $tplname){
         $html .= '<link rel="stylesheet" type="text/css" href="'.$qgeneral['url_base'].'system/pages/bootstrap.css.php?'.$cssws.$jsi[2].'" media="screen"/> ';
         foreach($this->javascripts as $js)
             $jsws .= $js.'|';
-			echo strlen($jsi[1]);
 		if(strlen($jsi[1]) == 0)
 			$jsws = rtrim($jsws, '|');
         $html .= '<script type="text/javascript" src="'.$qgeneral['url_base'].'system/pages/bootstrap.js.php?'.$jsws.$jsi[1].'"></script>';

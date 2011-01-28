@@ -33,7 +33,7 @@ include '../class/widget.class.php';
 $init = new init();
 $db = init::selectTypeDatabase($database['type']);
 
-$qgeneral = $db->query_array( 'Select * From '.$database['tbl_prefix'].'dev_general LIMIT 1');
+$qgeneral = $db->query( 'Select * From '.$database['tbl_prefix'].'dev_general LIMIT 1', DBDriver::AARRAY);
 
 if(isset($_SESSION['logged']))
     $user = unserialize($_SESSION['logged']);

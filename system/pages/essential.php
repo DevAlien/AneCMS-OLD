@@ -36,9 +36,8 @@ include './class/widget.class.php';
 $init = new init();
 $db = $init->selectTypeDatabase($database['type']);
 
-$qgeneral = $db->query_array( 'Select * From '.$database['tbl_prefix'].'dev_general LIMIT 1', true);
+$qgeneral = $db->query( 'Select * From '.$database['tbl_prefix'].'dev_general LIMIT ?', DBDriver::AARRAY, array( 1), true);
 
-//$pageurl = explode('/', str_replace($qgeneral['url_base'], '', 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF']), 1);
 if(!isset($_SESSION['language']))
     $_SESSION['language'] = $qgeneral['language'];
 

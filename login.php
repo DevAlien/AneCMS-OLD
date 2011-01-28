@@ -13,7 +13,7 @@ if(isset($_POST['l'])) {
     session_destroy();
 }
 else if(isset($_POST['username'])) {
-    $qlogin = $db->query_array( 'SELECT * FROM '.$database['tbl_prefix'].'dev_users  WHERE username = \''.Tools::parseGetPost($_POST['username']).'\' AND password =\''.md5($_POST['password']).'\'');
+    $qlogin = $db->query( 'SELECT * FROM '.$database['tbl_prefix'].'dev_users  WHERE username = ? AND password = ?', DBDriver::AARRAY, array($_POST['username'], $_POST['password']));
     if(isset($qlogin)) {
         if($qlogin['status'] < 1) {
             if(isset($_GET['normal'])) {

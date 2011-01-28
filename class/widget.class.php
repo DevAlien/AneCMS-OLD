@@ -65,8 +65,7 @@ class Widget {
      */
     public function getWidgetsJS() {
         global $db, $database, $skin;
-
-        $widgetsarea = $db->query_array('SELECT widgetarea FROM '.$database['tbl_prefix'].'dev_themes WHERE name = \''.$skin.'\' AND type = 1');
+        $widgetsarea = $db->query('SELECT widgetarea FROM '.$database['tbl_prefix'].'dev_themes WHERE name = ? AND type = ?', DBDriver::AARRAY, array($skin, 1));
         $widgetsname = '';
         $jssaving = '';
         $cwidgetsareas = is_array(unserialize($widgetsarea['widgetarea']));

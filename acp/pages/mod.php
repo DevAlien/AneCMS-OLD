@@ -77,21 +77,21 @@ else if(isset($_GET['m']) && $_GET['m'] == 'search') {
     echo $tpl->burn( 'mod_add', 'tpl' );
 }
 else if(isset($_GET['active'])){
-    $db->query('Update '.$database['tbl_prefix'].'dev_modules set status = 1 where id = '. Tools::parseGetPost($_GET['active']));
-    $tpl->assign('modules', $db->query_list('SELECT * FROM '.$database['tbl_prefix'].'dev_modules'));
+    $db->query('Update '.$database['tbl_prefix'].'dev_modules set status = ? where id = ?', DBDriver::QUERY, array(1,$_GET['active']));
+    $tpl->assign('modules', $db->query('SELECT * FROM '.$database['tbl_prefix'].'dev_modules', DBDriver::ALIST));
     $tpl->assign('message', 'the module has been activated');
     $tpl->assign('message_title', 'Module Activation');
     echo $tpl->burn( 'mod', 'tpl' );
 }
 else if(isset($_GET['deactive'])){
-    $db->query('Update '.$database['tbl_prefix'].'dev_modules set status = 0 where id = '. Tools::parseGetPost($_GET['deactive']));
-    $tpl->assign('modules', $db->query_list('SELECT * FROM '.$database['tbl_prefix'].'dev_modules'));
+    $db->query('Update '.$database['tbl_prefix'].'dev_modules set status = ? where id = ?', DBDriver::QUERY, array(0,$_GET['deactive']));
+    $tpl->assign('modules', $db->query('SELECT * FROM '.$database['tbl_prefix'].'dev_modules', DBDriver::ALIST));
         $tpl->assign('message', 'The module has been deactivated');
     $tpl->assign('message_title', 'Module Deactivation');
     echo $tpl->burn( 'mod', 'tpl' );
 }
 else {
-    $tpl->assign('modules', $db->query_list('SELECT * FROM '.$database['tbl_prefix'].'dev_modules'));
+    $tpl->assign('modules', $db->query('SELECT * FROM '.$database['tbl_prefix'].'dev_modules', DBDriver::ALIST));
     echo $tpl->burn( 'mod', 'tpl' );
 }
 ?>

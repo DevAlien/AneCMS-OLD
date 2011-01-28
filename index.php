@@ -11,11 +11,11 @@ if (isset($closed)) {
 $tpl->assign('site_title', $qgeneral['title']);
 $tpl->assign('sub_site_title', $qgeneral['descr']);
 if (is_object($user) && $user->getValues('groups') == 3)
-    $tpl->assign('top_menu', $db->query_list('Select * From ' . $database['tbl_prefix'] . 'dev_menus where type = 1 AND view >= 1 ORDER BY position', true));
+    $tpl->assign('top_menu', $db->query('Select * From ' . $database['tbl_prefix'] . 'dev_menus where type = ? AND view >= ? ORDER BY position', DBDriver::ALIST, array(1, 1), true));
 else if (is_object($user) && $user->getValues('groups') < 3)
-    $tpl->assign('top_menu', $db->query_list('Select * From ' . $database['tbl_prefix'] . 'dev_menus where type = 1 AND view >= 1 AND view <3 ORDER BY position', true));
+    $tpl->assign('top_menu', $db->query('Select * From ' . $database['tbl_prefix'] . 'dev_menus where type = ? AND view >= ? AND view < ? ORDER BY position', DBDriver::ALIST, array(1, 1, 3), true));
 else
-    $tpl->assign('top_menu', $db->query_list('Select * From ' . $database['tbl_prefix'] . 'dev_menus where type = 1 AND view <= 1 ORDER BY position', true));
+    $tpl->assign('top_menu', $db->query('Select * From ' . $database['tbl_prefix'] . 'dev_menus where type = ? AND view <= ? ORDER BY position', DBDriver::ALIST, array(1, 1), true));
 
 if (!isset($_GET['mode']) && isset($_GET['t'])) {
     $tpl->assign('typeerror', $lang['err_' . $_GET['t'] . '']);

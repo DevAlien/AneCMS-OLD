@@ -46,7 +46,7 @@ class Templates {
      */
     public static function updateDefaultTemplate($selTPL) {
         global $db, $database;
-        return $db->query('Update '.$database['tbl_prefix'].'dev_general set skin = \''.$selTPL.'\' where id = 0');
+        return $db->query('Update '.$database['tbl_prefix'].'dev_general set skin = ? where id = ?', DBDriver::QUERY, array($selTPL, 0));
 
     }
 }

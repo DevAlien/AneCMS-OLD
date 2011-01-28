@@ -72,7 +72,7 @@ class User {
         global $db, $database;
         $this->groups = array();
         
-        $groupslist = $db->query_list('SELECT '.$database['tbl_prefix'].'dev_groups.name FROM '.$database['tbl_prefix'].'dev_usersgroups inner join '.$database['tbl_prefix'].'dev_groups on '.$database['tbl_prefix'].'dev_groups.id = '.$database['tbl_prefix'].'dev_usersgroups.idgroup where iduser = '.$this->getValues('id'));
+        $groupslist = $db->query('SELECT '.$database['tbl_prefix'].'dev_groups.name FROM '.$database['tbl_prefix'].'dev_usersgroups inner join '.$database['tbl_prefix'].'dev_groups on '.$database['tbl_prefix'].'dev_groups.id = '.$database['tbl_prefix'].'dev_usersgroups.idgroup where iduser = ?', DBDriver::ALIST, array($this->getValues('id')));
 
         foreach ($groupslist as $key => $value)
             $this->groups[] = $value['name'];

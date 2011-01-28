@@ -5,7 +5,7 @@
  */
 
 if(isset($_GET['m']) && $_GET['m'] == 'widgets' && isset($_GET['t']) && $_GET['t'] == 'ajax'){
-	$widgets = $db->query_list('Select * From '.$database['tbl_prefix'].'dev_themewidgets Inner Join '.$database['tbl_prefix'].'dev_themes On '.$database['tbl_prefix'].'dev_themewidgets.idtheme = '.$database['tbl_prefix'].'dev_themes.id WHERE '.$database['tbl_prefix'].'dev_themes.name = \''.$_POST['tplname'].'\'ORDER BY '.$database['tbl_prefix'].'dev_themewidgets.widgetname asc, '.$database['tbl_prefix'].'dev_themewidgets.position asc');
+	$widgets = $db->query('Select * From '.$database['tbl_prefix'].'dev_themewidgets Inner Join '.$database['tbl_prefix'].'dev_themes On '.$database['tbl_prefix'].'dev_themewidgets.idtheme = '.$database['tbl_prefix'].'dev_themes.id WHERE '.$database['tbl_prefix'].'dev_themes.name = ? ORDER BY '.$database['tbl_prefix'].'dev_themewidgets.widgetname asc, '.$database['tbl_prefix'].'dev_themewidgets.position asc', DBDriver::ALIST, array($_POST['tplname']));
 	$tpl->assign('wid', $widgets);
 	$tpl->burn('tpl_widgets_ajax', 'tpl', false);
 
@@ -28,7 +28,7 @@ else if(isset($_GET['m']) && $_GET['m'] == 'modify' && isset($_GET['t']) && $_GE
 else if(isset($_GET['m']) && $_GET['m'] == 'widgets'){
 	$tpl->addJavascript('system/js/admin.js');
 
-	$tpl->assign('templates', $db->query_list('SELECT name FROM dev_themes'));
+	$tpl->assign('templates', $db->query('SELECT name FROM dev_themes', DBDriver::ALIST));
 	$tpl->burn('tpl_widgets', 'tpl');
 }
 else if(isset($_GET['m']) && $_GET['m'] == 'modify'){
@@ -51,7 +51,7 @@ else if(isset($_GET['m']) && $_GET['m'] == 'modify'){
 else{
 	$tpl->addJavascript('system/js/admin.js');
 
-	$tpl->assign('templates', $db->query_list('SELECT name FROM dev_themes'));
+	$tpl->assign('templates', $db->query('SELECT name FROM dev_themes', DBDriver::ALIST));
 	$tpl->burn('tpl_widgets', 'tpl');
 }
 ?>

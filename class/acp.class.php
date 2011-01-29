@@ -79,7 +79,7 @@ class acp {
         $linktodown = $db->query('SELECT * FROM '.$database['tbl_prefix'].'dev_menus WHERE id = ?', DBDriver::AARRAY, array($id));
         $position1 = $linktodown['position'] - 1;
         $link = $db->query('SELECT id FROM '.$database['tbl_prefix'].'dev_menus WHERE type = ? AND position = ?', DBDriver::AARRAY, array($linktodown['type'], $position1));
-        $db->query('UPDATE '.$database['tbl_prefix'].'dev_menus SET position = ? WHERE id = ?'., DBDriver::QUERY, array($linktodown['position'], $link['id']));
+        $db->query('UPDATE '.$database['tbl_prefix'].'dev_menus SET position = ? WHERE id = ?', DBDriver::QUERY, array($linktodown['position'], $link['id']));
         $db->query('UPDATE '.$database['tbl_prefix'].'dev_menus SET position = ? WHERE id = ?', DBDriver::QUERY, array($position1, $id));
     }
 
@@ -96,7 +96,7 @@ class acp {
 		$linktodown = $db->query('SELECT * FROM '.$database['tbl_prefix'].'dev_menus WHERE id = ?', DBDriver::AARRAY, array($id));
         $position1 = $linktodown['position'] + 1;
         $link = $db->query('SELECT id FROM '.$database['tbl_prefix'].'dev_menus WHERE type = ? AND position = ?', DBDriver::AARRAY, array($linktodown['type'], $position1));
-        $db->query('UPDATE '.$database['tbl_prefix'].'dev_menus SET position = ? WHERE id = ?'., DBDriver::QUERY, array($linktodown['position'], $link['id']));
+        $db->query('UPDATE '.$database['tbl_prefix'].'dev_menus SET position = ? WHERE id = ?', DBDriver::QUERY, array($linktodown['position'], $link['id']));
         $db->query('UPDATE '.$database['tbl_prefix'].'dev_menus SET position = ? WHERE id = ?', DBDriver::QUERY, array($position1, $id));
     }
 

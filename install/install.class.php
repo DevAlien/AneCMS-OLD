@@ -51,7 +51,7 @@ class Install {
         $this->password = $password;
         $this->database = $database;
 
-        $this->db = new mysql($hostname, $username, $password, $database);
+        $this->db = new DBDriver($hostname, $username, $password, $database);
 
 
     }
@@ -69,7 +69,7 @@ public function createFolders(){
   mkdir('../tmp/toinstall', 0777, true);
 }
     public function writeDB($title, $desc, $purl) {
-      $this->db = new mysql($this->hostname, $this->username, $this->password, $this->database);
+      $this->db = new DBDriver($this->hostname, $this->username, $this->password, $this->database);
       echo file_get_contents('sqlwp.sql');
         $sql = str_replace('##PREFIX##', $this->tbl_prefix, file_get_contents('sqlwp.sql'));
         echo $this->db->executeSqlFile($sql);

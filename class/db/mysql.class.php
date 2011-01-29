@@ -67,13 +67,23 @@ class DBDriver {
         }
     }
 	
-	public function query($query, $type = self::QUERY, $parameters = array(), $cache = false) {
+	public function query($query, $type = self::QUERY, $parameters = array(), $limit = array(), $cache = false) {
         foreach ($parameters as $param) {
             $param = '\'' . $this->sqlEscape($param) . '\'';
             $query = substr_replace(
                 $query, $param, strpos($query, '?'), 1
             );
         }
+	if(is_array($limit) && count($limit) > 0){
+		$c = 0;
+		foreach ($limit as $limits){
+			if($c == 0)
+				$query	.= ' LIMIT '. $limits;
+			else
+				$query .= ', '.$limits;
+			$c++;	
+		}
+	}
 		switch ($type) {
 			case self::QUERY:
 				return $this->queryExecute($query);
@@ -105,8 +115,9 @@ class DBDriver {
         $this->queries .= "<font style=\"color: orange;\" size=\"-1\">Query: </font><i>$query</i><br>";
         $this->sql_function_level++;
         $nquery++;
-        if( $this->result = mysql_query( $query ) ) {
+        if( $this->result = mysql_query( $query ) or die(mysql_error() . '<br>'. $query) ) {
             $this->sql_function_level = 0;
+echo 'fuck';
             return $this->result;
         }
         else if($debug){
@@ -138,7 +149,8 @@ class DBDriver {
         }
 
         $this->sql_function_level++;
-        if( $result = $this->queryExecute( $query ) ) {
+		$result = $this->queryExecute( $query );
+        if( $result != false ) {
             $query_array = mysql_fetch_array( $result, MYSQL_ASSOC);
 
             if( $cache && is_writable(SQL_CACHE_DIRECTORY) ) {
@@ -147,7 +159,7 @@ class DBDriver {
                 fclose( $fp );
                 $GLOBALS[ 'ncached_query' ]++;
             }
-            return $query_array;
+		return $query_array;
         }
         return false;
     }

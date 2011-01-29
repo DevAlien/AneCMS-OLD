@@ -24,8 +24,6 @@ CREATE TABLE `##PREFIX##dev_themewidgets` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `##PREFIX##dev_themewidgets` VALUES (null,1,'login','right',1),(null,1,'menu','right',2),(null,1,'blogcategories','right',3);
-
 CREATE TABLE `##PREFIX##dev_groups` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,

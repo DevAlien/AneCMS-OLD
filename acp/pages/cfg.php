@@ -30,7 +30,7 @@ else if(isset($_GET['m']) && $_GET['m'] == 'links') {
             else if($_GET['type'] == 'down')
                 ACP::setMenuDownPosition($_GET['id']);
         if(isset($_POST['link'])&& isset($_GET['id']) && $_GET['id'] > 0)
-            $db->query('UPDATE '.$database['tbl_prefix'].'dev_menus SET type = \''.$_POST['type'].'\', name = \''.$_POST['name'].'\', view = \''.$_POST['view'].'\', link = \''.$_POST['link'].'\' WHERE '.$database['tbl_prefix'].'dev_menus.id ='.$_GET['id'].' LIMIT 1');
+            $db->query('UPDATE '.$database['tbl_prefix'].'dev_menus SET type = ?, name = ?, view = ?, link = ? WHERE '.$database['tbl_prefix'].'dev_menus.id = ?', DBDriver::QUERY, array($_POST['type'], $_POST['name'], $_POST['view'], $_POST['link'], $_GET['id']), array(1));
         else if(isset($_POST['link']))
             $db->query('INSERT INTO '.$database['tbl_prefix'].'dev_menus (type, name, view, link, position) VALUES ('.$_POST['type'].', \''.$_POST['name'].'\', \''.$_POST['view'].'\', \''.$_POST['link'].'\', '.ACP::getNextPosition($_POST['type']).')');
         $db->delete_cache();
@@ -41,7 +41,7 @@ else if(isset($_GET['m']) && $_GET['m'] == 'links') {
         echo $tpl->burn( 'cfg_links', 'tpl' );
 }
 else if(isset($_GET['m']) && $_GET['m'] == 'smod') {
-        $db->query('UPDATE '.$database['tbl_prefix'].'dev_general SET language = \''.$_POST['language'].'\', descr = \''.$_POST['descr'].'\', title = \''.$_POST['title'].'\', url_base = \''.$_POST['url_base'].'\', default_module = \''.$_POST['defaultmodule'].'\', twitter_user = \''.$_POST['tusername'].'\', twitter_password = \''.$_POST['tpassword'].'\', akismetkey = \''.$_POST['akismetkey'].'\', status = '.((isset($_POST['status'])) ? 1 : 0).', infoclosed = \''.$_POST['infoclosed'].'\'  WHERE '.$database['tbl_prefix'].'dev_general.id =0 LIMIT 1');
+        $db->query('UPDATE '.$database['tbl_prefix'].'dev_general SET language = ?, descr = ?, title = ?, url_base = ?, default_module = ?, status = ?, infoclosed = ?  WHERE '.$database['tbl_prefix'].'dev_general.id = ?', DBDriver::QUERY, array($_POST['language'], $_POST['descr'], $_POST['title'], $_POST['url_base'], $_POST['defaultmodule'],((isset($_POST['status'])) ? 1 : 0), $_POST['infoclosed']), array(1));
         $db->delete_cache();
         $tpl->assign('langpd', acp::addLog($lang['updatecfg']));
         $tpl->assign('cfg', $db->query('SELECT * FROM '.$database['tbl_prefix'].'dev_general', DBDriver::ALIST));

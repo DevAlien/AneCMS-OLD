@@ -93,5 +93,6 @@ $lang['err_noaccess']   = 'You do not have access';
 $lang['derr_noaccess']  = 'This error appears when you do not have access to an area such as Administration or sections of the site that for a choice the administration will not shows';
 $lang['err_nomod']      = 'Module Not Found';
 $lang['derr_nomod']     = 'This error appears when a module is required but that is not present or is not active. Or you have changed the link.';
-
+$lang['err_noselected'] = 'Default module not selected';
+$lang['derr_noselected'] = 'You don\'t have a "Default module" selected, you can set it in ACP => Configuration => Edit configuration. If you don\'t have modueles to select you can install what you want from ACP => Modules => Add Module.';
 ?>

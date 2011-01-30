@@ -4,6 +4,14 @@ define('ACCESS', true);
 include './system/pages/essential.php';
 
 if(isset($_POST['l'])) {
+$tpl->assign('site_title', $qgeneral['title']);
+$tpl->assign('sub_site_title', $qgeneral['descr']);
+if (is_object($user) && $user->getValues('groups') == 3)
+    $tpl->assign('top_menu', $db->query('Select * From ' . $database['tbl_prefix'] . 'dev_menus where type = ? AND view >= ? ORDER BY position', DBDriver::ALIST, array(1, 1), true));
+else if (is_object($user) && $user->getValues('groups') < 3)
+    $tpl->assign('top_menu', $db->query('Select * From ' . $database['tbl_prefix'] . 'dev_menus where type = ? AND view >= ? AND view < ? ORDER BY position', DBDriver::ALIST, array(1, 1, 3), true));
+else
+    $tpl->assign('top_menu', $db->query('Select * From ' . $database['tbl_prefix'] . 'dev_menus where type = ? AND view <= ? ORDER BY position', DBDriver::ALIST, array(1, 1), true));
     $tpl->assign('link', 'this');
     $tpl->assign('error', $lang['logout_yes']);
     $tpl->assign('redirect', $lang['redirect_yes']);
@@ -13,11 +21,20 @@ if(isset($_POST['l'])) {
     session_destroy();
 }
 else if(isset($_POST['username'])) {
-    $qlogin = $db->query( 'SELECT * FROM '.$database['tbl_prefix'].'dev_users  WHERE username = ? AND password = ?', DBDriver::AARRAY, array($_POST['username'], $_POST['password']));
+$tpl->assign('site_title', $qgeneral['title']);
+$tpl->assign('sub_site_title', $qgeneral['descr']);
+if (is_object($user) && $user->getValues('groups') == 3)
+    $tpl->assign('top_menu', $db->query('Select * From ' . $database['tbl_prefix'] . 'dev_menus where type = ? AND view >= ? ORDER BY position', DBDriver::ALIST, array(1, 1), true));
+else if (is_object($user) && $user->getValues('groups') < 3)
+    $tpl->assign('top_menu', $db->query('Select * From ' . $database['tbl_prefix'] . 'dev_menus where type = ? AND view >= ? AND view < ? ORDER BY position', DBDriver::ALIST, array(1, 1, 3), true));
+else
+    $tpl->assign('top_menu', $db->query('Select * From ' . $database['tbl_prefix'] . 'dev_menus where type = ? AND view <= ? ORDER BY position', DBDriver::ALIST, array(1, 1), true));
+    $qlogin = $db->query( 'SELECT * FROM '.$database['tbl_prefix'].'dev_users  WHERE username = ? AND password = ?', DBDriver::AARRAY, array($_POST['username'], md5($_POST['password'])));
+print_r($qlogin);
     if(isset($qlogin)) {
         if($qlogin['status'] < 1) {
             if(isset($_GET['normal'])) {
-                $tpl->assign('typeerror', $lang['login']);
+                $tpl->assign('typeerror', $lang['login_no']);
                 $tpl->assign('descrerror', $lang['login_err']);
                 $tpl->burn('error1', 'tpl');
             }
@@ -70,6 +87,7 @@ else if(isset($_POST['username'])) {
             $tpl->burn('error', 'tpl', false);
         }
     }
+
 }
 else {
     if(file_exists('./skins/'.$skin.'/login.tpl'))

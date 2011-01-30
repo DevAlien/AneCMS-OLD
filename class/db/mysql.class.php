@@ -117,7 +117,6 @@ class DBDriver {
         $nquery++;
         if( $this->result = mysql_query( $query ) or die(mysql_error() . '<br>'. $query) ) {
             $this->sql_function_level = 0;
-echo 'fuck';
             return $this->result;
         }
         else if($debug){

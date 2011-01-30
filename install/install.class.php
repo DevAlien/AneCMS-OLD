@@ -73,7 +73,7 @@ public function createFolders(){
       echo file_get_contents('sqlwp.sql');
         $sql = str_replace('##PREFIX##', $this->tbl_prefix, file_get_contents('sqlwp.sql'));
         echo $this->db->executeSqlFile($sql);
-        $this->db->query("INSERT INTO ".$this->tbl_prefix."dev_general VALUES (0,'".$this->lang."',1,'".$title."', '".$desc."','default','register','".$purl."','admintasia',0,'','0.9','','','','The website is closed for some tests, Coming soon')");
+        $this->db->query("INSERT INTO ".$this->tbl_prefix."dev_general VALUES (0,'".$this->lang."',1,'".$title."', '".$desc."','default','','".$purl."','admintasia',0,'','0.9','','','','The website is closed for some tests, Coming soon')");
        $this->db->query("INSERT INTO ".$this->tbl_prefix."dev_users VALUES (1, '".$_POST['username']."', '', '".md5($_POST['password'])."', '".$this->lang."', 'default', '3', '1', '')");
     }
 
@@ -81,7 +81,7 @@ public function createFolders(){
 
         $header = "<?php
                    /**
-                   * File automaked with the installer of AneCMS
+                   * File made with the installer of AneCMS
                    *
                    * @package AneCMS
                    * @author Goncalo Margalho <gsky89@gmail.com>
@@ -125,7 +125,7 @@ public function createFolders(){
         $rb = str_replace('install/check.php?check=6', '', $_SERVER['REQUEST_URI']);
         $header = "ErrorDocument 404 ".$rb."error.php?error=404";
 		$header1 = "
-		RewriteEngine on
+RewriteEngine on
 RewriteBase ".$rb."
 RewriteRule ^\.htaccess$ - [F]
 
@@ -133,10 +133,6 @@ RewriteRule ^\.htaccess$ - [F]
 RewriteRule ^acp$ acp/index.php
 # Base Rules
 
-# Start Rules Register
-RewriteRule ^register$ index.php?mode=register
-RewriteRule ^register/next(.*)$ index.php?mode=register&next
-# End Rules Register
 ";
 	if(is_writable('../')){
 		if($this->modrew == true){

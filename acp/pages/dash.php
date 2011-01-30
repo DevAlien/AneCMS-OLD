@@ -26,7 +26,6 @@ if(isset($_GET['m']) && $_GET['m'] == 'enote')
 
 $tpl->assign('log', $db->query('SELECT * FROM '.$database['tbl_prefix'].'dev_adminlog , '.$database['tbl_prefix'].'dev_users WHERE '.$database['tbl_prefix'].'dev_users.id = '.$database['tbl_prefix'].'dev_adminlog.user ORDER BY '.$database['tbl_prefix'].'dev_adminlog.id DESC', DBDriver::ALIST));
 
-$qgeneral = $db->query( 'Select * From '.$database['tbl_prefix'].'dev_general', DBDriver::AARRAY,,array(1), true);
 $tpl->assign('notes', $qgeneral['notes']);
 
 //RSS

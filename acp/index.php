@@ -1,6 +1,7 @@
 <?php
 $adm = 1;
-include './inc/essential.php';
+define('ANECMSACP', true);
+include '../system/pages/essential.php';
 
 $tpl->addJavascript('system/js/jquery-1.3.2.min.js');
 $tpl->addJavascript('system/js/jquery.jgrowl_minimized.js');
@@ -10,7 +11,7 @@ if(isset($user) && $user->isOnGroup('CustomerAdmin')){
 $_GET['p'] = 'mod';
 $tpl->assign('top_menu', $db->query('SELECT * FROM '.$database['tbl_prefix'].'dev_menus where type = ? AND link = ? order by position ASC', DBDriver::ALIST, array(3, '?p=mod')));
 }else
-$tpl->assign('top_menu', $db->query('SELECT * FROM '.$database['tbl_prefix'].'dev_menus where type = 3 order by position ASC', DBDriver::ALIST, array(3)));
+$tpl->assign('top_menu', $db->query('SELECT * FROM '.$database['tbl_prefix'].'dev_menus where type = ? order by position ASC', DBDriver::ALIST, array(3)));
 
 if(!isset($_GET['p']))
     $_GET['p'] = 'dash';

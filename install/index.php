@@ -54,9 +54,7 @@ $files['modules'] = '../modules';
 $files['admintasia'] = '../acp/skins/admintasia';
 $files['default'] = '../skins/default';
 $files['langenmain'] = '../lang/en/main.php';
-$files['langitmain'] = '../lang/it/main.php';
 $files['langenadmin'] = '../lang/en/admin.php';
-$files['langitadmin'] = '../lang/it/admin.php';
 if(isset($_GET['chk'])){
   global $files;
   $v = 0;

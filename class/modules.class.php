@@ -34,8 +34,22 @@ class Modules {
      */
     public static function loadModule($name) {
         global $db, $tpl, $qgeneral, $database, $user, $skin, $lang;
-        if($name == 'DEFAULT' && file_exists('./modules/'.$qgeneral['default_module'].'/index.php'))
+        if($name == 'DEFAULT'){
+		if($qgeneral['default_module'] == ''){
+			$tpl->assign('typeerror', $lang['err_noselected']);
+            		$tpl->assign('descrerror', $lang['derr_noselected']);
+            		$tpl->burn('error1', 'tpl');
+		}
+		else {
+	$c = $db->query('SELECT id FROM '.$database['tbl_prefix'].'dev_modules WHERE name = ? AND type = ? AND status = ?', DBDriver::COUNT, array($qgeneral['default_module'], 1, 1));
+		if($c == 1 && file_exists('./modules/'.$qgeneral['default_module'].'/index.php')){
             include './modules/'.$qgeneral['default_module'].'/index.php';
+	}
+	else{
+$tpl->assign('typeerror', $lang['err_nomod']);
+            $tpl->assign('descrerror', $lang['derr_nomod']);
+            $tpl->burn('error1', 'tpl');
+}}}
         else if(isset($name) && $db->query('SELECT id FROM '.$database['tbl_prefix'].'dev_modules WHERE name = ? AND type = ? AND status = ?', DBDriver::COUNT, array($name, 1, 1)) != 0 && file_exists('./modules/'.$name.'/index.php'))
             include './modules/'.$name.'/index.php';
         else {

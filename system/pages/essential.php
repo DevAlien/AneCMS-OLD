@@ -10,34 +10,39 @@
  * @version 1.0
  */
 if (substr_count($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip')) ob_start("ob_gzhandler"); else ob_start();
-if(!defined('ANECMS')) die ('You can\'t see this page');
+define('DIR', dirname(__FILE__));
+if(!defined('ANECMS') && !defined('ANECMSACP')) die ('You can\'t see this page');
 session_start();
 if(!defined('RSS'))
     header('content-type: text/html; charset: utf-8');
 else
 header ("content-type: text/xml;  charset: utf-8");
-//header('content-type: application/rss+xml; charset: utf-8');
 
-if(!file_exists('./config.php')) {
+if(!file_exists(DIR.'/../../config.php')) {
     ob_end_clean();
-
-    header( "Location: ./install/index.php" );
+	if(defined('ANECMS'))
+    		header( "Location: ./install/index.php" );
+	else if(defined('ANECMSACP'))
+    		header( "Location: ../install/index.php" );
+	else
+		echo 'You must install AneCMS before. You can find the installer in ROOTAneCMS/install/index.php';
+	die();
 }
 
-include './config.php';
-include './class/tple/template.class.php';
-include './class/init.class.php';
-include './class/modules.class.php';
-include './class/tools.class.php';
-include './class/user.class.php';
-include './class/templates.class.php';
-include './class/widget.class.php';
+include DIR.'/../../config.php';
+include DIR.'/../../class/tple/template.class.php';
+include DIR.'/../../class/init.class.php';
+include DIR.'/../../class/modules.class.php';
+include DIR.'/../../class/tools.class.php';
+include DIR.'/../../class/user.class.php';
+include DIR.'/../../class/templates.class.php';
+include DIR.'/../../class/widget.class.php';
 
 $init = new init();
 $db = $init->selectTypeDatabase($database['type']);
 
-$qgeneral = $db->query( 'Select * From '.$database['tbl_prefix'].'dev_general', DBDriver::AARRAY, array(), array(1), true);
-print_r($qgeneral);
+$qgeneral = $db->query( 'Select * From '.$database['tbl_prefix'].'dev_general', DBDriver::AARRAY, array(),array(1), true);
+
 if(!isset($_SESSION['language']))
     $_SESSION['language'] = $qgeneral['language'];
 
@@ -45,7 +50,7 @@ if(isset($_SESSION['logged']))
     $user = unserialize($_SESSION['logged']);
 else
     $user = $init->checkCookie();
-
+if(defined('ANECMS')){
 if($qgeneral['status'] == 0  && !defined('ACCESS') && (!isset($user) || !$user->isOnGroup('Administrator')))
     $closed = true;
 
@@ -61,5 +66,24 @@ if(!defined('RSS') || !defined('XMLRPC')){
   $tpl->addOnLoadJS('<?php if(is_a($user, \'User\') && $user->isOnGroup(\'Administrator\')){?> $("#m1").click(function(event) { event.preventDefault(); $("#toppanel1").slideToggle();});<?php } ?>');
   $tpl->addSystemHTML('<?php if(is_a($user, \'User\') && $user->isOnGroup(\'Administrator\')){ ?> <div id="dash"><div id="toppanel"><?php if(isset($_GET[\'mode\'])) Modules::loadMiniACPModule($_GET[\'mode\']); else Modules::loadMiniACPModule(\'DEFAULT\'); ?></div><div id="dash2" style="left: 50%; margin: auto; cursor:pointer; top:0px; width:120px;"><div id="l" style=""></div><div id="m">Toppanel</div><div id="r" style=""></div></div></div><?php } ?><div id="oscura"></div><div id="notify"></div>');
   $tpl->addSystemHTML('<?php if(is_a($user, \'User\') && $user->isOnGroup(\'Administrator\') && isset($_GET[\'modifywidgets\'])){ ?> <div id="dash1"><div id="dash3" style="left: 50%; margin: auto; cursor:pointer; top:0px; width:120px;"><div id="l1" style=""></div><div id="m1">Widgets</div><div id="r1" style=""></div></div><div id="toppanel1"><input type="button" value="Press Me" name="foo" onClick="updateWidgets(\''.$qgeneral['url_base'].'\')"><br /><ul id="widgetselector"><?php $widgets = new widget(); $widgets->includeAllWidgets(); ?></ul></div></div><?php } ?>');
+}
+}
+else if(defined('ANECMSACP')){
+include DIR.'/../../class/acp.class.php';
+init::loadACPPreferences();
+
+if(!isset($user) || !$user->isOnGroup('Administrator')){
+    ob_end_clean();
+    header( "Location: ../index.php?t=noaccess" );
+    exit();
+}
+else{
+    if(!isset($_SESSION['admin'])){
+        $_SESSION['admin'] = $user->getValues('username');
+        acp::addLog($lang['admacc']);
+    }
+}
+
+$tpl = new Template($skin);
 }
 ?>

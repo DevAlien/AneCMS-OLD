@@ -62,7 +62,7 @@ else if(isset($_GET['m']) && $_GET['m'] == 'more' && isset($_GET['id'])) {
 }
 else if(isset($_GET['m']) && $_GET['m'] == 'search') {
 
-    $tpl->assign('selectsrv', $db->query_list('SELECT url FROM '.$database['tbl_prefix'].'dev_servers'));
+    $tpl->assign('selectsrv', $db->query('SELECT url FROM '.$database['tbl_prefix'].'dev_servers', DBDriver::ALIST));
     if(isset($_POST['word'])) {
         include '../class/iXR_library.inc.php';
         $_SESSION['rserver'] = $_POST['urlserver'];

@@ -30,7 +30,7 @@ else if (is_object($user) && $user->getValues('groups') < 3)
 else
     $tpl->assign('top_menu', $db->query('Select * From ' . $database['tbl_prefix'] . 'dev_menus where type = ? AND view <= ? ORDER BY position', DBDriver::ALIST, array(1, 1), true));
     $qlogin = $db->query( 'SELECT * FROM '.$database['tbl_prefix'].'dev_users  WHERE username = ? AND password = ?', DBDriver::AARRAY, array($_POST['username'], md5($_POST['password'])));
-print_r($qlogin);
+
     if(isset($qlogin)) {
         if($qlogin['status'] < 1) {
             if(isset($_GET['normal'])) {

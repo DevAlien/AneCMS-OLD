@@ -6,6 +6,8 @@
 if(isset($_GET['m']) && $_GET['m'] == 'mod') {
     $tpl->assign('cfg', $db->query('SELECT * FROM '.$database['tbl_prefix'].'dev_general', DBDriver::ALIST));
     $tpl->assign('dmodule', $db->query('SELECT * FROM '.$database['tbl_prefix'].'dev_modules WHERE status = ? AND type = ? ORDER By name', DBDriver::ALIST, array(1,1)));
+    $tpl->assign('session_token', $_SESSION['TOKEN']);
+    $tpl->assign('csrfdetect','');
     $tpl->assign('langpd', acp::getLanguage());
 
     echo $tpl->burn( 'cfg_mod', 'tpl' );
@@ -40,12 +42,17 @@ else if(isset($_GET['m']) && $_GET['m'] == 'links') {
         $tpl->assign('countlinksmenu', $db->query('SELECT * FROM '.$database['tbl_prefix'].'dev_menus WHERE TYPE = ? ORDER BY position', DBDriver::COUNT, array(2)));
         echo $tpl->burn( 'cfg_links', 'tpl' );
 }
-else if(isset($_GET['m']) && $_GET['m'] == 'smod') {
+else if( isset($_GET['m']) && $_GET['m'] == 'smod') {
+	if( $_POST['token'] == $_SESSION['TOKEN'] ) {
         $db->query('UPDATE '.$database['tbl_prefix'].'dev_general SET language = ?, descr = ?, title = ?, url_base = ?, default_module = ?, status = ?, infoclosed = ?  WHERE '.$database['tbl_prefix'].'dev_general.id = ?', DBDriver::QUERY, array($_POST['language'], $_POST['descr'], $_POST['title'], $_POST['url_base'], $_POST['defaultmodule'],((isset($_POST['status'])) ? 1 : 0), $_POST['infoclosed']), array(1));
-        $db->delete_cache();
-        $tpl->assign('langpd', acp::addLog($lang['updatecfg']));
+		$db->delete_cache();
+         $tpl->assign('langpd', acp::addLog($lang['updatecfg']));
         $tpl->assign('cfg', $db->query('SELECT * FROM '.$database['tbl_prefix'].'dev_general', DBDriver::ALIST));
         echo $tpl->burn( 'cfg', 'tpl' );
+	} else {
+		$tpl->assign('csrfdetect','CSRF DETECT');
+		echo $tpl->burn( 'cfg', 'tpl' );
+	}
 }
 else if(isset($_GET['m']) && $_GET['m'] == 'reposerver') {
 

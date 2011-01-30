@@ -225,5 +225,8 @@ class Tools {
         else
             return $url;
     }
+	public static function getToken () {
+		return md5(uniqid(rand(), TRUE));
+	}
 }
 ?>

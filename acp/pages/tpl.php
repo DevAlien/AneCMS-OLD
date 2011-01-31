@@ -28,7 +28,7 @@ else if(isset($_GET['m']) && $_GET['m'] == 'modify' && isset($_GET['t']) && $_GE
 else if(isset($_GET['m']) && $_GET['m'] == 'widgets'){
 	$tpl->addJavascript('system/js/admin.js');
 
-	$tpl->assign('templates', $db->query('SELECT name FROM dev_themes', DBDriver::ALIST));
+	$tpl->assign('templates', $db->query('SELECT name FROM '.$database['tbl_prefix'].'dev_themes', DBDriver::ALIST));
 	$tpl->burn('tpl_widgets', 'tpl');
 }
 else if(isset($_GET['m']) && $_GET['m'] == 'modify'){
@@ -51,7 +51,7 @@ else if(isset($_GET['m']) && $_GET['m'] == 'modify'){
 else{
 	$tpl->addJavascript('system/js/admin.js');
 
-	$tpl->assign('templates', $db->query('SELECT name FROM dev_themes', DBDriver::ALIST));
+	$tpl->assign('templates', $db->query('SELECT name FROM '.$database['tbl_prefix'].'dev_themes', DBDriver::ALIST));
 	$tpl->burn('tpl_widgets', 'tpl');
 }
 ?>

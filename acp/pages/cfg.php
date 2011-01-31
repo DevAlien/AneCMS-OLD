@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
  function cp($post){
-	if(isset($_POST[''.$post.'']) return $_POST[''.$post.'']; else return '';
+	if(isset($_POST[''.$post.''])) return $_POST[''.$post.'']; else return '';
 	}
 if(isset($_GET['m']) && $_GET['m'] == 'mod') {
     $tpl->assign('cfg', $db->query('SELECT * FROM '.$database['tbl_prefix'].'dev_general', DBDriver::ALIST));
@@ -47,7 +47,7 @@ else if(isset($_GET['m']) && $_GET['m'] == 'links') {
 }
 else if( isset($_GET['m']) && $_GET['m'] == 'smod') {
 	if( $_POST['token'] == $_SESSION['TOKEN'] ) {
-        $db->query('UPDATE '.$database['tbl_prefix'].'dev_general SET language = ?, descr = ?, title = ?, url_base = ?, default_module = ?, status = ?, infoclosed = ?  WHERE '.$database['tbl_prefix'].'dev_general.id = ?', DBDriver::QUERY, array(cp('language'), cp('descr'), cp('title'), cp('url_base'), cp('defaultmodule'),((isset($_POST['status'])) ? 1 : 0), cp('infoclosed'], 0), array(1));
+        $db->query('UPDATE '.$database['tbl_prefix'].'dev_general SET language = ?, descr = ?, title = ?, url_base = ?, default_module = ?, status = ?, infoclosed = ?  WHERE '.$database['tbl_prefix'].'dev_general.id = ?', DBDriver::QUERY, array(cp('language'), cp('descr'), cp('title'), cp('url_base'), cp('defaultmodule'), ((isset($_POST['status'])) ? 1 : 0), cp('infoclosed', 0), array(1)));
 		$db->delete_cache();
          $tpl->assign('langpd', acp::addLog($lang['updatecfg']));
         $tpl->assign('cfg', $db->query('SELECT * FROM '.$database['tbl_prefix'].'dev_general', DBDriver::ALIST));

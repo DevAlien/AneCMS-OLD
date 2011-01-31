@@ -48,6 +48,7 @@ else
             $user = new User($qlogin);
             if($user->getValues('groups') == 3)
                 $_SESSION['admin'] = true;
+                $_SESSION['TOKEN'] = Tools::getToken();
 				$_SESSION['logged'] = serialize($user);
 
             setcookie('ANECMSUser', serialize($user), time() + 3600000);

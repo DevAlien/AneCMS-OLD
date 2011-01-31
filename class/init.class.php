@@ -152,6 +152,7 @@ class Init {
             if(is_a($user, 'User')){
                 $user->setArrayGroups();
                 $_SESSION['logged'] = serialize($user);
+                $_SESSION['TOKEN'] = Tools::getToken();
                 $_SESSION['language'] = $user->getValues('language');
                 return $user;
             }

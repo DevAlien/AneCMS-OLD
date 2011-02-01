@@ -39,8 +39,16 @@ class Init {
      *
      */
     function __construct() {
+		global $serverinfos;
         $this->time_start = $this->getMicrotime();
         $this->setErrors();
+		if($serverinfos['mod_rewrite'] == false){
+			include(dirname(__FILE__).'/modrewrite.class.php');
+			$ModRewrite = new ModRewrite();
+			$ModRewrite->htaccess = dirname(__FILE__)."/../htaccess.rew";
+			$todo = $ModRewrite->rewrite();
+			$_GET = array_merge($todo["vars"],$_GET);
+		}
     }
 
     /**

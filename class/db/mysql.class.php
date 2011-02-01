@@ -246,13 +246,14 @@ class DBDriver {
 
     public function executeSqlFile($sql) {
         $query = explode( ";\n", $sql );
-        $html = '';
+		if(count($query) <= 1)
+			$query = explode( ";\r", $sql );
+        $html = '<div>';
         for( $i=0; $i<count($query);$i++) {
-          echo $i;
             if( !mysql_query( $query[$i] ) )
-                $html .= ' - <font color="red">ERROR</font>';
+                $html .= $query[$i]. ' - <font color="red">ERROR</font><br />';
             else
-                $html .= ' - OK';
+                $html .= $query[$i] . ' - OK<br />';
             $html .= '</div>';
         }
         return $html;

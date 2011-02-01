@@ -13,8 +13,8 @@
 <div id="topnav">
 <ul>
 	{loop name="top_menu"}
-		<li><a href="{qg.url_base}{$top_menu.link}">{$top_menu.name}</a></li>
-        {/loop}
+		<li><a href="{link.{$top_menu.link}}">{$top_menu.name}</a></li>
+    {/loop}
 </ul>
 </div>
 <h1 id="sitename"><a href="#">{$site_title}</a><span class="caption">{$sub_site_title}</span> </h1>

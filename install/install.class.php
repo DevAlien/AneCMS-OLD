@@ -74,7 +74,7 @@ public function createFolders(){
         $sql = str_replace('##PREFIX##', $this->tbl_prefix, file_get_contents('sqlwp.sql'));
         echo $this->db->executeSqlFile($sql);
         $this->db->query("INSERT INTO ".$this->tbl_prefix."dev_general VALUES (0,'".$this->lang."',1,'".$title."', '".$desc."','default','','".$purl."','admintasia',0,'','0.9','','','','The website is closed for some tests, Coming soon')");
-       $this->db->query("INSERT INTO ".$this->tbl_prefix."dev_users VALUES (1, '".$_POST['username']."', '', '".md5($_POST['password'])."', '".$this->lang."', 'default', '3', '1', '')");
+       $this->db->query("INSERT INTO ".$this->tbl_prefix."dev_users VALUES (1, '".$_POST['username']."', '".$_POST['email']."', '".md5($_POST['password'])."', '".$this->lang."', 'default', '3', '1', '')");
     }
 
     public function writeConfig() {

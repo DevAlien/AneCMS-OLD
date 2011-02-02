@@ -177,7 +177,7 @@ function validateTabs(tabIdx){
       $.post("./check.php?check=3", { },function(data){
         $("#pb1").progressBar(40);
         a("desc").innerHTML="<?php echo $l['writedb'];?>";
-        $.post("./check.php?check=4", { baseurl: a('baseurl').value, title: a('title').value, description: a('description').value, username: a('username').value, password: a('password').value },function(data){
+        $.post("./check.php?check=4", { baseurl: a('baseurl').value, title: a('title').value, description: a('description').value, username: a('username').value, password: a('password').value, email: a('email').value },function(data){
         $("#pb1").progressBar(60);
         a("desc").innerHTML="<?php echo $l['writeconfig'];?>";
         $.post("./check.php?check=5", { },function(data){

@@ -138,10 +138,12 @@ class ModRewrite {
       if (preg_match('/' . str_replace('/', '\/', $thisRule["expr"]) . '/', $onlythepath)) {
         //parse redirect url
         $red2 = parse_url($thisRule["redirect"]);
-        parse_str($red2["query"],$redarr);
-        $redqs = array_keys($redarr);
+	if(isset($red2["query"]))
+        	parse_str($red2["query"],$redarr);
+	if(isset($redarr) && is_array($redarr))
+        	$redqs = array_keys($redarr);
   
-  
+  	$checkq = false;
         $tmpurl = preg_replace('/' . str_replace('/', '\/', $thisRule["expr"]) . '/', $thisRule["redirect"], $onlythepath);
         $tmpq = parse_url($tmpurl,PHP_URL_QUERY);
         $tmpp = parse_str($tmpq,$tarr);

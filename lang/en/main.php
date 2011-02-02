@@ -39,6 +39,8 @@ $lang['login_yes']		= 'Successfully logged in';
 $lang['login_err']		= 'This account is Inactive or Banned';
 $lang['compli']			= 'Congratulations';
 $lang['loading']        = 'Loading';
+$lang['close'] = 'Close';
+
 //Widgets
 $lang['savewidgets_ok']			= 'Widgets positions: Saved';
 

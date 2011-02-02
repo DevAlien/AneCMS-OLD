@@ -40,8 +40,20 @@ class Install {
 	}
 	
 	private function setModRew(){
-		if($this->servertype == 'apache')
-			$this->modrew = in_array('mod_rewrite', apache_get_modules());
+	
+		if($this->servertype == 'apache'){
+			if ( function_exists('apache_get_modules') ) {
+				$mods = apache_get_modules();
+				if ( in_array('mod_rewrite', $mods) )
+					return true;
+			} elseif ( function_exists('phpinfo') ) {
+				ob_start();
+				phpinfo(8);
+				$phpinfo = ob_get_clean();
+				if ( false !== strpos($phpinfo, 'mod_rewrite') )
+					return true;
+			}
+		}
 		else
 			$this->modrew = false;
 	}

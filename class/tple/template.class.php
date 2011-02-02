@@ -256,7 +256,7 @@ public function setTplDir($tpldir, $tplname){
      * @param boolean $echo if you can cache the file and after include it or print the compiled template
      */
     public function burn($tpl_name, $ext, $withMasterpage = true, $echo = false) {
-        global $lang, $user, $qgeneral, $db, $database, $skin;
+        global $lang, $user, $qgeneral, $db, $database, $skin, $serverinfos;
         $var = $this->variables;
         if(!file_exists($this->tpl_dir . '/' . $tpl_name . '.' . $ext)) {
             echo 'The system tried to use the file: '. $this->tpl_dir . '/' . $tpl_name . '.' . $ext .' but doesn\'t exists<br /><br />Return to the <a href="'.$qgeneral['url_base'].'">site</a>';

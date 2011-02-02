@@ -40,8 +40,20 @@ class Install {
 	}
 	
 	private function setModRew(){
-		if($this->servertype == 'apache')
-			$this->modrew = in_array('mod_rewrite', apache_get_modules());
+	
+		if($this->servertype == 'apache'){
+			if ( function_exists('apache_get_modules') ) {
+				$mods = apache_get_modules();
+				if ( in_array('mod_rewrite', $mods) )
+					return true;
+			} elseif ( function_exists('phpinfo') ) {
+				ob_start();
+				phpinfo(8);
+				$phpinfo = ob_get_clean();
+				if ( false !== strpos($phpinfo, 'mod_rewrite') )
+					return true;
+			}
+		}
 		else
 			$this->modrew = false;
 	}
@@ -70,7 +82,6 @@ public function createFolders(){
 }
     public function writeDB($title, $desc, $purl) {
       $this->db = new DBDriver($this->hostname, $this->username, $this->password, $this->database);
-      echo file_get_contents('sqlwp.sql');
         $sql = str_replace('##PREFIX##', $this->tbl_prefix, file_get_contents('sqlwp.sql'));
         echo $this->db->executeSqlFile($sql);
         $this->db->query("INSERT INTO ".$this->tbl_prefix."dev_general VALUES (0,'".$this->lang."',1,'".$title."', '".$desc."','default','','".$purl."','admintasia',0,'','0.9','','','','The website is closed for some tests, Coming soon')");
@@ -105,7 +116,7 @@ public function createFolders(){
         $header .= "\n";
 		$header .= '$serverinfos[\'type\'] = \''.$this->servertype.'\';';
         $header .= "\n";
-		$header .= '$serverinfos[\'mod_rewrite\'] = \''.$this->modrew.'\';';
+		$header .= '$serverinfos[\'mod_rewrite\'] = '.(($this->modrew == false)? 'false' : 'true').';';
         $header .= "\n";
         $header .= '$debug = false;';
         $header .= "\n";
@@ -123,6 +134,8 @@ public function createFolders(){
 
     public function writeHtaccess() {
         $rb = str_replace('install/check.php?check=6', '', $_SERVER['REQUEST_URI']);
+		if($this->modrew == false)
+			$rb = $rb.'index.php?';
         $header = "ErrorDocument 404 ".$rb."error.php?error=404";
 		$header1 = "
 RewriteEngine on
@@ -132,7 +145,6 @@ RewriteRule ^\.htaccess$ - [F]
 # Base Rules
 RewriteRule ^acp$ acp/index.php
 # Base Rules
-
 ";
 	if(is_writable('../')){
 		if($this->modrew == true){

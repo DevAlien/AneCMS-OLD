@@ -133,35 +133,4 @@ $lang['submit'] = 'Send';
 $lang['operation'] = 'Operation';
 $lang['exact'] = 'Exact';
 
-//users
-$lang['users_description'] = 'Give you the possibility to have a user management system';
-$lang['users'] = 'Users';
-$lang['users_manage'] = 'Users: Management';
-$lang['users_groups'] = 'Users: Group management';
-$lang['users_management'] = 'Users management';
-$lang['users_finduser'] = 'Find a user';
-$lang['users_username'] = 'Username';
-$lang['users_email'] = 'E-mail';
-$lang['users_web'] = 'Web Site';
-$lang['users_password'] = 'Password';
-$lang['users_groupsmanagement'] = 'Group management';
-$lang['users_ceatenewgroup'] = 'New group';
-$lang['users_groupname'] = 'Group name';
-$lang['users_groupdescription'] = 'Group description';
-$lang['users_groupadded'] = 'Group successfully added';
-$lang['users_groupexist'] = 'The group already exist';
-$lang['users_groupdeleted'] = 'Group deleted';
-$lang['users_groupslist'] = 'Group list';
-$lang['users_userslist'] = 'User list';
-$lang['users_foundusers'] = 'Users have been found';
-$lang['users_notfoundusers'] = 'No user has been found. The user list will be displayed.';
-$lang['users_userdeleted'] = 'User deleted';
-$lang['users_userupdated'] = 'User updated';
-$lang['users_modifying'] = 'You are modifying:';
-$lang['users_assigngroups'] = 'Assign groups to the user';
-$lang['users_assigngroupsdesc'] = 'You can move the groups with the Drag&Drop';
-$lang['users_assignedgroupstouser'] = 'Assigned groups to the user';
-$lang['users_availablegroups'] = 'Available groups';
-
-$lang['register_description'] = 'To able someone to register into your site';
 ?>

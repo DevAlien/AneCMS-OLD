@@ -191,9 +191,13 @@ public function setTplDir($tpldir, $tplname){
 
         $tpl = file_get_contents($template_dir . '/' . $tpl_name);
         $compiling = preg_replace('/{title}/', $this->getTitle(), $tpl);
+				$compiling = preg_replace('/{link\.{\$(.[^}]*?)\.(.*?)}}/', '<?php echo $qgeneral[\'url_base\'].(($serverinfos[\'mod_rewrite\'] == false) ? \'index.php?\' : \'\').str_replace(\'index.php\', \'\', $\\1[\'\\2\']);?>',$compiling);
+		$compiling = preg_replace('/{link\.{\$(.*?)}}/', '<?php echo $qgeneral[\'url_base\'].(($serverinfos[\'mod_rewrite\'] == false) ? \'index.php?\' : \'\').str_replace(\'index.php\', \'\', $var[\'\\1\']); ?>',$compiling);
+		$compiling = preg_replace('/{link\.(.*?)}/', '<?php echo $qgeneral[\'url_base\'].\'index.php?\\1\';?>',$compiling);
         $compiling = preg_replace('/{\$(.[^}]*?)\.(.*?)}/', '<?php echo $\\1[\'\\2\'];?>',$compiling);
         $compiling = preg_replace('/{\_(.[^}]*?)\.(.*?)}/', '<?php echo $var[\'\\1\'][\'\\2\'];?>',$compiling);
         $compiling = preg_replace('/{lang\.(.*?)}/', '<?php echo $lang[\'\\1\'];?>',$compiling);
+		$compiling = preg_replace('/{link\.(.*?)}/', '<?php echo $qgeneral[\'url_base\'].\'index.php?\\1\';?>',$compiling);
         $compiling = preg_replace('/{qg\.(.*?)}/', '<?php echo $qgeneral[\'\\1\'];?>',$compiling);
         $compiling = preg_replace('/\[qg\.(.*?)\]/', '$qgeneral[\'\\1\']',$compiling);
         $compiling = preg_replace('/{user\.(.*?)}/', '<?php echo $user->getValues(\'\\1\');?>',$compiling);
@@ -252,7 +256,7 @@ public function setTplDir($tpldir, $tplname){
      * @param boolean $echo if you can cache the file and after include it or print the compiled template
      */
     public function burn($tpl_name, $ext, $withMasterpage = true, $echo = false) {
-        global $lang, $user, $qgeneral, $db, $database, $skin;
+        global $lang, $user, $qgeneral, $db, $database, $skin, $serverinfos;
         $var = $this->variables;
         if(!file_exists($this->tpl_dir . '/' . $tpl_name . '.' . $ext)) {
             echo 'The system tried to use the file: '. $this->tpl_dir . '/' . $tpl_name . '.' . $ext .' but doesn\'t exists<br /><br />Return to the <a href="'.$qgeneral['url_base'].'">site</a>';

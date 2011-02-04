@@ -72,6 +72,7 @@ CREATE TABLE `##PREFIX##dev_users` (
   `groups` text NOT NULL,
   `status` varchar(1) NOT NULL,
   `web` varchar(255) DEFAULT NULL,
+  `timezone` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -124,5 +125,6 @@ CREATE TABLE `##PREFIX##dev_general` (
   `twitter_password` varchar(255) NOT NULL,
   `akismetkey` varchar(255) NOT NULL,
   `infoclosed` text NOT NULL,
+  `timezone` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

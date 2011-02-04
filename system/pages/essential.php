@@ -50,6 +50,12 @@ if(isset($_SESSION['logged']))
     $user = unserialize($_SESSION['logged']);
 else
     $user = $init->checkCookie();
+//Iflogged load the timezone of the user, else load the default timezone	
+if(isset($user))
+	date_default_timezone_set($user->getValues('timezone'));
+else
+	date_default_timezone_set($qgeneral['timezone']);
+	
 if(defined('ANECMS')){
 if($qgeneral['status'] == 0  && !defined('ACCESS') && (!isset($user) || !$user->isOnGroup('Administrator')))
     $closed = true;

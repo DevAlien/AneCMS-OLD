@@ -233,7 +233,7 @@ class Tools {
 	
 	public static function checkToken () 
 	{
-		if( $_POST['TOKEN'] == $_SESSION['TOKEN'] ) {
+		if( isset($_POST['token']) && isset($_SESSION['token']) && ($_POST['token'] == $_SESSION['token']) ) {
 			return true;
 		} else {
 			return false;

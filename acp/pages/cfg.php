@@ -46,16 +46,16 @@ else if(isset($_GET['m']) && $_GET['m'] == 'links') {
         echo $tpl->burn( 'cfg_links', 'tpl' );
 }
 else if( isset($_GET['m']) && $_GET['m'] == 'smod') {
-	if( $_POST['token'] == $_SESSION['TOKEN'] ) {
+//	if( Tools::checkToken() ) { 
         $db->query('UPDATE '.$database['tbl_prefix'].'dev_general SET language = ?, descr = ?, title = ?, url_base = ?, default_module = ?, status = ?, infoclosed = ?  WHERE '.$database['tbl_prefix'].'dev_general.id = ?', DBDriver::QUERY, array(cp('language'), cp('descr'), cp('title'), cp('url_base'), cp('defaultmodule'), ((isset($_POST['status'])) ? 1 : 0), cp('infoclosed', 0), array(1)));
 		$db->delete_cache();
          $tpl->assign('langpd', acp::addLog($lang['updatecfg']));
         $tpl->assign('cfg', $db->query('SELECT * FROM '.$database['tbl_prefix'].'dev_general', DBDriver::ALIST));
         echo $tpl->burn( 'cfg', 'tpl' );
-	} else {
+/*	} else {
 		$tpl->assign('csrfdetect','CSRF DETECT');
 		echo $tpl->burn( 'cfg', 'tpl' );
-	}
+	}*/
 }
 else if(isset($_GET['m']) && $_GET['m'] == 'reposerver') {
 

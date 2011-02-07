@@ -225,8 +225,19 @@ class Tools {
         else
             return $url;
     }
-	public static function getToken () {
+    
+	public static function getToken () 
+	{
 		return md5(uniqid(rand(), TRUE));
 	}
+	
+	public static function checkToken () 
+	{
+		if( $_POST['TOKEN'] == $_SESSION['TOKEN'] ) {
+			return true;
+		} else {
+			return false;
+		}
+	}		
 }
 ?>

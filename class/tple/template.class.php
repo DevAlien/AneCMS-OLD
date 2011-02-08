@@ -203,10 +203,7 @@ public function setTplDir($tpldir, $tplname){
         $compiling = preg_replace('/\[qg\.(.*?)\]/', '$qgeneral[\'\\1\']',$compiling);
         $compiling = preg_replace('/{user\.(.*?)}/', '<?php echo $user->getValues(\'\\1\');?>',$compiling);
         $compiling = preg_replace('/{uservar\.(.*?)}/', '$user->getValues(\'\\1\')',$compiling);
-        $compiling = preg_replace('/\[\$(.[^]]*?)\.(.*?)\]/', '$\\1[\'\\2\']',$compiling);
-        $compiling = preg_replace('/{Tools\:\:(.*?)\.(.*?)}/', '<?php echo Tools::\\1(\\2);?>',$compiling);
-        $compiling = preg_replace('/{(.*?)\:\:(.*?)\.(.*?)}/', '<?php echo Tools::\\1(\\2);?>',$compiling);
-        $compiling = preg_replace('/{\$key\.(.*?)}/', '<?php echo $key[\'\\1\'];?>',$compiling);
+		$compiling = preg_replace('/{\$key\.(.*?)}/', '<?php echo $key[\'\\1\'];?>',$compiling);
         $compiling = preg_replace('/{date\.\$(.*?)\.(.*?)}/', '<?php echo date(\'d-m-Y H:i\',$\\1[\'\\2\']);?>',$compiling);
         $compiling = preg_replace('/{date\.time}/', '<?php echo date(\'d-m-Y H:i\',time());?>',$compiling);
         $compiling = preg_replace('/{date\.(.*?)}/', '<?php echo date(\'d-m-Y H:i\',$var[\'\\1\']);?>',$compiling);
@@ -222,6 +219,9 @@ public function setTplDir($tpldir, $tplname){
         $compiling = str_replace('{/IFADMIN}', '<?php }?>',$compiling);
         $compiling = str_replace('{IFNOTLOGGED}', '<?php if(!is_a($user, \'User\')){?>',$compiling);
         $compiling = str_replace('{/IFNOTLOGGED}', '<?php }?>',$compiling);
+		$compiling = preg_replace('/\[\$(.[^]]*?)\.(.*?)\]/', '$\\1[\'\\2\']',$compiling);
+		$compiling = preg_replace('/\[\$(.*?)\]/', '$var[\'\\1\']',$compiling);
+		$compiling = preg_replace('/{Tools\:\:(.*?)\.(.*?)}/', '<?php echo Tools::\\1(\\2);?>',$compiling);
         $compiling = preg_replace('/{\$(.*?)}/', '<?php echo $var[\'\\1\'];?>',$compiling);
         $compiling = preg_replace('/\[\$(.*?)\]/', '$var[\'\\1\']',$compiling);
         $compiling = preg_replace('/{(.*?)\:\:(.*?)}/', '<?php echo \\1::\\2;?>',$compiling);

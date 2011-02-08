@@ -76,7 +76,9 @@ class installModule {
             $this->loadLanguageFiles();
 
             $this->loadSQL();
-
+			
+			$this->moveWidgets();
+			
             $this->setTemplateFiles();
 
             $this->setHtaccess();
@@ -89,6 +91,26 @@ class installModule {
         }
     }
 
+	private function moveWidgets(){
+		if (is_dir('../modules/'.$this->name.'/install/widgets'))
+                $this->rCopy('../modules/'.$this->name.'/install/widgets', '../widgets');
+	}
+	
+	private function rCopy($src,$dst) { 
+	    $dir = opendir($src); 
+	    @mkdir($dst); 
+	    while(false !== ( $file = readdir($dir)) ) { 
+	        if (( $file != '.' ) && ( $file != '..' )) { 
+	            if ( is_dir($src . '/' . $file) ) { 
+	                recurse_copy($src . '/' . $file,$dst . '/' . $file); 
+	            } 
+	            else { 
+	                copy($src . '/' . $file,$dst . '/' . $file); 
+	            } 
+	        } 
+	    } 
+	    closedir($dir); 
+	} 
     /**
      * Execute the SQL file on the package
      *

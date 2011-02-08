@@ -38,14 +38,14 @@ else {
 	function getSiteTitle(){
 		global $db, $database;
 		
-		return $db->query('Select title from '.$database['tbl_prefix'].'dev_general LIMIT 1', DBDriver::AARRAY));
+		return $db->query('Select title from '.$database['tbl_prefix'].'dev_general LIMIT 1', DBDriver::AARRAY);
 	}
 
 	function getModulesWS($sessionId){
 		global $db, $database;
 		//TODO: just the ones with xmlrpc service
 		if(checkSessionId($sessionId))
-			return $db->query('Select name from '.$database['tbl_prefix'].'dev_modules', DBDriver::ALIST));
+			return $db->query('Select name from '.$database['tbl_prefix'].'dev_modules', DBDriver::ALIST);
 		else
 			return false;
 	}

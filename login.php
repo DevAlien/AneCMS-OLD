@@ -3,33 +3,32 @@ define('ANECMS', true);
 define('ACCESS', true);
 include './system/pages/essential.php';
 
-if(isset($_POST['l'])) {
-$tpl->assign('site_title', $qgeneral['title']);
-$tpl->assign('sub_site_title', $qgeneral['descr']);
-if (is_object($user) && $user->getValues('groups') == 3)
-    $tpl->assign('top_menu', $db->query('Select * From ' . $database['tbl_prefix'] . 'dev_menus where type = ? AND view >= ? ORDER BY position', DBDriver::ALIST, array(1, 1), true));
-else if (is_object($user) && $user->getValues('groups') < 3)
-    $tpl->assign('top_menu', $db->query('Select * From ' . $database['tbl_prefix'] . 'dev_menus where type = ? AND view >= ? AND view < ? ORDER BY position', DBDriver::ALIST, array(1, 1, 3), true));
-else
-    $tpl->assign('top_menu', $db->query('Select * From ' . $database['tbl_prefix'] . 'dev_menus where type = ? AND view <= ? ORDER BY position', DBDriver::ALIST, array(1, 1), true));
-    $tpl->assign('link', 'this');
-    $tpl->assign('error', $lang['logout_yes']);
-    $tpl->assign('redirect', $lang['redirect_yes']);
-    $tpl->assign('compli', $lang['compli']);
-    $tpl->burn('error', 'tpl', false);
-    setcookie('ANECMSUser', serialize($user), time() - 3600000);
-    session_destroy();
-}
-else if(isset($_POST['username'])) {
-$tpl->assign('site_title', $qgeneral['title']);
-$tpl->assign('sub_site_title', $qgeneral['descr']);
-if (is_object($user) && $user->getValues('groups') == 3)
-    $tpl->assign('top_menu', $db->query('Select * From ' . $database['tbl_prefix'] . 'dev_menus where type = ? AND view >= ? ORDER BY position', DBDriver::ALIST, array(1, 1), true));
-else if (is_object($user) && $user->getValues('groups') < 3)
-    $tpl->assign('top_menu', $db->query('Select * From ' . $database['tbl_prefix'] . 'dev_menus where type = ? AND view >= ? AND view < ? ORDER BY position', DBDriver::ALIST, array(1, 1, 3), true));
-else
-    $tpl->assign('top_menu', $db->query('Select * From ' . $database['tbl_prefix'] . 'dev_menus where type = ? AND view <= ? ORDER BY position', DBDriver::ALIST, array(1, 1), true));
-    $qlogin = $db->query( 'SELECT * FROM '.$database['tbl_prefix'].'dev_users  WHERE username = ? AND password = ?', DBDriver::AARRAY, array($_POST['username'], md5($_POST['password'])));
+if(isset($_GET['l'])) {
+	$tpl->assign('site_title', $qgeneral['title']);
+	$tpl->assign('sub_site_title', $qgeneral['descr']);
+	if (is_object($user) && $user->isOnGroup('Administrator') OR $user->isOnGroup('JuniorAdmin'))
+	    $tpl->assign('top_menu', $db->query('Select * From ' . $database['tbl_prefix'] . 'dev_menus where type = ? AND view >= ? ORDER BY position', DBDriver::ALIST, array(1, 1), true));
+	else if (is_object($user) && !$user->isOnGroup('JuniorAdmin') && !$user->isOnGroup('Administrator'))
+	    $tpl->assign('top_menu', $db->query('Select * From ' . $database['tbl_prefix'] . 'dev_menus where type = ? AND view >= ? AND view < ? ORDER BY position', DBDriver::ALIST, array(1, 1, 3), true));
+	else
+	    $tpl->assign('top_menu', $db->query('Select * From ' . $database['tbl_prefix'] . 'dev_menus where type = ? AND view <= ? ORDER BY position', DBDriver::ALIST, array(1, 1), true));
+	    
+		$tpl->assign('typeerror', $lang['logout']);
+        $tpl->assign('descrerror', $lang['logout_yes']);
+        $tpl->burn('error1', 'tpl');
+	    setcookie('ANECMSUser', '', time() - 3600000);
+	    session_destroy();
+	}
+	else if(isset($_POST['username'])) {
+	$tpl->assign('site_title', $qgeneral['title']);
+	$tpl->assign('sub_site_title', $qgeneral['descr']);
+	if (is_object($user) && $user->isOnGroup('Administrator') OR $user->isOnGroup('JuniorAdmin'))
+	    $tpl->assign('top_menu', $db->query('Select * From ' . $database['tbl_prefix'] . 'dev_menus where type = ? AND view >= ? ORDER BY position', DBDriver::ALIST, array(1, 1), true));
+	else if (is_object($user) && !$user->isOnGroup('JuniorAdmin') && !$user->isOnGroup('Administrator'))
+	    $tpl->assign('top_menu', $db->query('Select * From ' . $database['tbl_prefix'] . 'dev_menus where type = ? AND view >= ? AND view < ? ORDER BY position', DBDriver::ALIST, array(1, 1, 3), true));
+	else
+	    $tpl->assign('top_menu', $db->query('Select * From ' . $database['tbl_prefix'] . 'dev_menus where type = ? AND view <= ? ORDER BY position', DBDriver::ALIST, array(1, 1), true));
+	    $qlogin = $db->query( 'SELECT * FROM '.$database['tbl_prefix'].'dev_users  WHERE username = ? AND password = ?', DBDriver::AARRAY, array($_POST['username'], md5($_POST['password'])));
 
     if(isset($qlogin)) {
         if($qlogin['status'] < 1) {
@@ -46,7 +45,12 @@ else
         }
         else {
             $user = new User($qlogin);
-            if($user->getValues('groups') == 3)
+			if (is_object($user) && $user->isOnGroup('Administrator') OR $user->isOnGroup('JuniorAdmin'))
+	    		$tpl->assign('top_menu', $db->query('Select * From ' . $database['tbl_prefix'] . 'dev_menus where type = ? AND view >= ? ORDER BY position', DBDriver::ALIST, array(1, 1), true));
+			else if (is_object($user) && !$user->isOnGroup('JuniorAdmin') && !$user->isOnGroup('Administrator'))
+	    		$tpl->assign('top_menu', $db->query('Select * From ' . $database['tbl_prefix'] . 'dev_menus where type = ? AND view >= ? AND view < ? ORDER BY position', DBDriver::ALIST, array(1, 1, 3), true));
+	
+            if(is_object($user) && $user->isOnGroup('Administrator') OR $user->isOnGroup('JuniorAdmin'))
                 $_SESSION['admin'] = true;
                 $_SESSION['TOKEN'] = Tools::getToken();
 				$_SESSION['logged'] = serialize($user);

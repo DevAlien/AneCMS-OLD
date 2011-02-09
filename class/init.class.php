@@ -42,7 +42,7 @@ class Init {
 		global $serverinfos;
         $this->time_start = $this->getMicrotime();
         $this->setErrors();
-		if($serverinfos['mod_rewrite'] == false && !defined('ANECMSACP')){
+		if($serverinfos['mod_rewrite'] == false && !defined('ANECMSACP') && !defined('LOGIN') && !defined('XMLRPC')){
 			include(dirname(__FILE__).'/modrewrite.class.php');
 			$ModRewrite = new ModRewrite();
 			$ModRewrite->htaccess = dirname(__FILE__)."/../htaccess.rew";

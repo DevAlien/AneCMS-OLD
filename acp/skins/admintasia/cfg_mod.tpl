@@ -73,30 +73,7 @@
 									<input type="text" tabindex="7" maxlength="255" value="{$cfg.url_base}" class="field text small" name="url_base" />
 								</div>
 							</li>
-							<li>
-								<label class="desc">
-									{lang.twitter_username}
-								</label>
-								<div>
-									<input type="text" tabindex="8" maxlength="255" value="{$cfg.twitter_user}" class="field text small" name="tusername" />
-								</div>
-							</li>
-							<li>
-								<label class="desc">
-									{lang.twitter_password}
-								</label>
-								<div>
-									<input type="password" tabindex="9" maxlength="255" value="{$cfg.twitter_password}" class="field text small" name="tpassword" />
-								</div>
-							</li>
-							<li>
-								<label class="desc">
-									{lang.akismetkey}
-								</label>
-								<div>
-									<input type="text" tabindex="10" maxlength="255" value="{$cfg.akismetkey}" class="field text small" name="akismetkey" />
-								</div>
-							</li>
+							{csrftoken}
 							<li class="buttons">
 								<button class="ui-state-default ui-corner-all ui-button" type="submit">{lang.upd_general}</button>
 							</li>

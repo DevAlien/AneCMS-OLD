@@ -144,6 +144,7 @@ RewriteRule ^\.htaccess$ - [F]
 
 # Base Rules
 RewriteRule ^acp$ acp/index.php
+RewriteRule ^mode=(.*)&ajax=(.*)$ index.php?mode=$1&ajax=$2
 # Base Rules
 ";
 	if(is_writable('../')){

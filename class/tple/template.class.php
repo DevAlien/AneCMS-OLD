@@ -191,7 +191,7 @@ public function setTplDir($tpldir, $tplname){
 
         $tpl = file_get_contents($template_dir . '/' . $tpl_name);
         $compiling = preg_replace('/{title}/', $this->getTitle(), $tpl);
-		$compiling = str_replace('{csrftoken}', '<input type="hidden" name="csrftoken" value="<?php echo ((is_object($user) && $user->isOnGroup(\'Administrator\') OR $user->isOnGroup(\'JuniorAdmin\')) ? $_SESSION[\'TOKEN\'] : \'\'); ?>"/>');
+		$compiling = str_replace('{csrftoken}', '<input type="hidden" name="csrftoken" value="<?php echo ((is_object($user) && $user->isOnGroup(\'Administrator\') OR $user->isOnGroup(\'JuniorAdmin\')) ? $_SESSION[\'TOKEN\'] : \'\'); ?>"/>', $compiling);
 		$compiling = preg_replace('/{\_\$(.[^}]*?)}/', '<?php echo $\\1;?>',$compiling);
 		$compiling = preg_replace('/{link\.{\$(.[^}]*?)\.(.*?)}}/', '<?php echo $qgeneral[\'url_base\'].(($serverinfos[\'mod_rewrite\'] == false) ? \'index.php?\' : \'\').str_replace(\'index.php\', \'\', $\\1[\'\\2\']);?>',$compiling);
 		$compiling = preg_replace('/{link\.{\$(.*?)}}/', '<?php echo $qgeneral[\'url_base\'].(($serverinfos[\'mod_rewrite\'] == false) ? \'index.php?\' : \'\').str_replace(\'index.php\', \'\', $var[\'\\1\']); ?>',$compiling);

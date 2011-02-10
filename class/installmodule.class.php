@@ -225,7 +225,7 @@ class installModule {
     private function dbInsert() {
         global $db, $database;
 
-        $db->query('INSERT INTO '.$database['tbl_prefix'].'dev_modules (name, description, status, type, version, author, email, site, datarelease, depends) VALUES (\''.$this->info['name'].'\', \''.$this->info['description'].'\', 1, 1, \''.$this->info['version'].'\', \''.$this->info['author'].'\', \''.$this->info['email'].'\', \''.$this->info['site'].'\', \''.$this->info['datarelease'].'\', \''.$this->info['depends'].'\' )');
+        $db->query('INSERT INTO '.$database['tbl_prefix'].'dev_modules (name, description, status, type, version, author, email, site, datarelease, depends, xmlrpc) VALUES (\''.$this->info['name'].'\', \''.$this->info['description'].'\', 1, 1, \''.$this->info['version'].'\', \''.$this->info['author'].'\', \''.$this->info['email'].'\', \''.$this->info['site'].'\', \''.$this->info['datarelease'].'\', \''.$this->info['depends'].'\', \''.$this->info['xmlrpc'].'\' )');
 		$db->delete_cache();
 	}
 }

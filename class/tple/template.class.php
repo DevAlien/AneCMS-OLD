@@ -234,6 +234,7 @@ public function setTplDir($tpldir, $tplname){
         $compiling = preg_replace('/(?:{loop(?:\s+)name="(.*?)"})/', '<?php $counter_\\1=0; foreach($var[\'\\1\'] as $key => $\\1){ $counter_\\1++; ?>',$compiling);
         $compiling = str_replace('{/loop}', '<?php } ?>',$compiling);
 		$compiling = preg_replace_callback('/{jsandcss(?:\s+)js="(.*?)"(?:\s+)css="(.*?)"}/', array( &$this, 'getJSAndCSS'), $compiling);
+		$compiling = preg_replace_callback('/{link\.(.*?)}/', array( &$this, 'makeLink'), $compiling);
         if($tpl_name != 'master.page')
             $compiling = preg_replace_callback('/(?:{content(?:\s+)name="(.*?)"}([\S|\s]*?){\/content})/', array( &$this, 'setFileContent'), $compiling);
 
@@ -409,6 +410,14 @@ public function setTplDir($tpldir, $tplname){
 			$jsws = rtrim($jsws, '|');
         $html .= '<script type="text/javascript" src="'.$qgeneral['url_base'].'system/pages/bootstrap.js.php?'.$jsws.$jsi[1].'"></script>';
 
+        return $html;
+    }
+
+	private function makeLink($link) {
+        global $qgeneral, $lang;
+		if($link[1] == '' || $link[1] == 'index.php' || $link[1] == 'index.php?')
+        
+		//echo $qgeneral['url_base'].(($serverinfos['mod_rewrite'] == false) ? 'index.php?' : '').str_replace('index.php', '',$a);
         return $html;
     }
 

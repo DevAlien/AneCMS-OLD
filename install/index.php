@@ -22,7 +22,7 @@ $v .= '</table>';
 return $v;
 }
 ?>
-</head><body>
+<html><head></head><body>
 <center>
     <h1>AneCMS - Installer</h1>
     <h2>Version 1.0 BETA</h2>

@@ -190,9 +190,10 @@ public function setTplDir($tpldir, $tplname){
                     unlink($delfile);
 
         $tpl = file_get_contents($template_dir . '/' . $tpl_name);
-        $compiling = preg_replace('/{title}/', $this->getTitle(), $tpl);
-		$compiling = str_replace('{csrftoken}', '<input type="hidden" name="csrftoken" value="<?php echo ((is_object($user) && $user->isOnGroup(\'Administrator\') OR $user->isOnGroup(\'JuniorAdmin\')) ? $_SESSION[\'TOKEN\'] : \'\'); ?>"/>', $compiling);
-		$compiling = preg_replace('/{\_\$(.[^}]*?)}/', '<?php echo $\\1;?>',$compiling);
+        $compiling = preg_replace_callback('/{noparse}([\S|\s]*?){\/noparse}/', array( &$this, 'getNoParse'), $tpl);
+        $compiling = preg_replace('/{title}/', $this->getTitle(), $compiling);
+		    $compiling = str_replace('{csrftoken}', '<input type="hidden" name="csrftoken" value="<?php echo ((is_object($user) && $user->isOnGroup(\'Administrator\') OR $user->isOnGroup(\'JuniorAdmin\')) ? $_SESSION[\'TOKEN\'] : \'\'); ?>"/>', $compiling);
+		    $compiling = preg_replace('/{\_\$(.[^}]*?)}/', '<?php echo $\\1;?>',$compiling);
         $compiling = preg_replace('/{\$(.[^}]*?)\.(.*?)}/', '<?php echo $\\1[\'\\2\'];?>',$compiling);
         $compiling = preg_replace('/{\_(.[^}]*?)\.(.*?)}/', '<?php echo $var[\'\\1\'][\'\\2\'];?>',$compiling);
         $compiling = preg_replace('/{lang\.(.*?)}/', '<?php echo $lang[\'\\1\'];?>',$compiling);
@@ -200,7 +201,6 @@ public function setTplDir($tpldir, $tplname){
         $compiling = preg_replace('/\[qg\.(.*?)\]/', '$qgeneral[\'\\1\']',$compiling);
         $compiling = preg_replace('/{user\.(.*?)}/', '<?php echo $user->getValues(\'\\1\');?>',$compiling);
         $compiling = preg_replace('/{uservar\.(.*?)}/', '$user->getValues(\'\\1\')',$compiling);
-		$compiling = preg_replace('/{\$key\.(.*?)}/', '<?php echo $key[\'\\1\'];?>',$compiling);
         $compiling = preg_replace('/{date\.\$(.*?)\.(.*?)}/', '<?php echo date(\'d-m-Y H:i\',$\\1[\'\\2\']);?>',$compiling);
         $compiling = preg_replace('/{date\.time}/', '<?php echo date(\'d-m-Y H:i\',time());?>',$compiling);
         $compiling = preg_replace('/{date\.(.*?)}/', '<?php echo date(\'d-m-Y H:i\',$var[\'\\1\']);?>',$compiling);
@@ -212,13 +212,13 @@ public function setTplDir($tpldir, $tplname){
         $compiling = str_replace('{$key}', '<?php echo $key;?>',$compiling);
         $compiling = str_replace('{IFLOGGED}', '<?php if(is_a($user, \'User\')){?>',$compiling);
         $compiling = str_replace('{/IFLOGGED}', '<?php }?>',$compiling);
-        $compiling = str_replace('{IFADMIN}', '<?php if(is_a($user, \'User\') && $user->getValues(\'groups\') == 3){?>',$compiling);
+        $compiling = str_replace('{IFADMIN}', '<?php if(is_a($user, \'User\') && $user->isOnGroup(\'Administrator\')){?>',$compiling);
         $compiling = str_replace('{/IFADMIN}', '<?php }?>',$compiling);
         $compiling = str_replace('{IFNOTLOGGED}', '<?php if(!is_a($user, \'User\')){?>',$compiling);
         $compiling = str_replace('{/IFNOTLOGGED}', '<?php }?>',$compiling);
-		$compiling = preg_replace('/\[\$(.[^]]*?)\.(.*?)\]/', '$\\1[\'\\2\']',$compiling);
-		$compiling = preg_replace('/\[\$(.*?)\]/', '$var[\'\\1\']',$compiling);
-		$compiling = preg_replace('/{Tools\:\:(.*?)\.(.*?)}/', '<?php echo Tools::\\1(\\2);?>',$compiling);
+    		$compiling = preg_replace('/\[\$(.[^]]*?)\.(.*?)\]/', '$\\1[\'\\2\']',$compiling);
+    		$compiling = preg_replace('/\[\$(.*?)\]/', '$var[\'\\1\']',$compiling);
+    		$compiling = preg_replace('/{Tools\:\:(.*?)\.(.*?)}/', '<?php echo Tools::\\1(\\2);?>',$compiling);
         $compiling = preg_replace('/{\$(.*?)}/', '<?php echo $var[\'\\1\'];?>',$compiling);
         $compiling = preg_replace('/\[\$(.*?)\]/', '$var[\'\\1\']',$compiling);
         $compiling = preg_replace('/{(.*?)\:\:(.*?)}/', '<?php echo \\1::\\2;?>',$compiling);
@@ -229,8 +229,8 @@ public function setTplDir($tpldir, $tplname){
         $compiling = str_replace('{/if}', '<?php } ?>',$compiling);
         $compiling = preg_replace('/(?:{loop(?:\s+)name="(.*?)"})/', '<?php $counter_\\1=0; foreach($var[\'\\1\'] as $key => $\\1){ $counter_\\1++; ?>',$compiling);
         $compiling = str_replace('{/loop}', '<?php } ?>',$compiling);
-		$compiling = preg_replace_callback('/{jsandcss(?:\s+)js="(.*?)"(?:\s+)css="(.*?)"}/', array( &$this, 'getJSAndCSS'), $compiling);
-		$compiling = preg_replace_callback('/{link\.(.*?)}/', array( &$this, 'makeLink'), $compiling);
+    		$compiling = preg_replace_callback('/{jsandcss(?:\s+)js="(.*?)"(?:\s+)css="(.*?)"}/', array( &$this, 'getJSAndCSS'), $compiling);
+    		$compiling = preg_replace_callback('/{link\.(.*?)}/', array( &$this, 'makeLink'), $compiling);
         if($tpl_name != 'master.page')
             $compiling = preg_replace_callback('/(?:{content(?:\s+)name="(.*?)"}([\S|\s]*?){\/content})/', array( &$this, 'setFileContent'), $compiling);
 
@@ -272,16 +272,11 @@ public function setTplDir($tpldir, $tplname){
             else {
                 $this->compileTPL($this->tpl_dir, $tpl_name . '.' . $ext, $withMasterpage);
                 if($withMasterpage == true) {
-                    $theme = $db->query('SELECT css FROM '.$database['tbl_prefix'].'dev_themes where name = ?', DBDriver::AARRAY, array($this->name));
+                    $theme = $db->query('SELECT css FROM '.$database['tbl_prefix'].'dev_themes where name = ?', DBDriver::AARRAY, array($this->name), array(1), true);
                     if($theme['css'] != '') $this->addCSSFile($theme['css']);
                     $this->compileMasterpage();
                 }
                 if(is_writable($this->getCompiledDir() . '/')) {
-//                    if(is_file($this->tpl_dir.'/../../class/HTML.php'))
-//                        include $this->tpl_dir.'/../../class/HTML.php';
-//                    else
-//                        include $this->tpl_dir.'/../../../class/HTML.php';
-//                    fwrite( fopen( $this->tpl_dir . '/Compiled/' . $tpl_name . '.' . $ext . '_' . $tpltime . '_' . $mastertime . '.php', 'w' ), Minify_HTML::minify($this->compiledFile) );
                     fwrite( fopen( $this->getCompiledDir() . '/' . $tpl_name . '.' . $ext . '_' . $tpltime . '_' . $mastertime . '.php', 'w' ), $this->compiledFile );
                     include $this->getCompiledDir() . '/' . $tpl_name . '.' . $ext . '_' . $tpltime . '_' . $mastertime . '.php';
                 }
@@ -409,11 +404,11 @@ public function setTplDir($tpldir, $tplname){
         return $html;
     }
 
-	private function makeLink($link) {
+    private function makeLink($link) {
         global $qgeneral;
-		if($link[1] == '' || $link[1] == 'index.php' || $link[1] == 'index.php?')
-        return $qgeneral['url_base'];
-		return $qgeneral['url_base'].(($serverinfos['mod_rewrite'] == false) ? 'index.php?' : '').$link[1];
+    		if($link[1] == '' || $link[1] == 'index.php' || $link[1] == 'index.php?')
+            return $qgeneral['url_base'];
+    		return $qgeneral['url_base'].(($serverinfos['mod_rewrite'] == false) ? 'index.php?' : '').$link[1];
     }
 
     /**

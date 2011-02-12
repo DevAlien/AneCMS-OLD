@@ -193,13 +193,9 @@ public function setTplDir($tpldir, $tplname){
         $compiling = preg_replace('/{title}/', $this->getTitle(), $tpl);
 		$compiling = str_replace('{csrftoken}', '<input type="hidden" name="csrftoken" value="<?php echo ((is_object($user) && $user->isOnGroup(\'Administrator\') OR $user->isOnGroup(\'JuniorAdmin\')) ? $_SESSION[\'TOKEN\'] : \'\'); ?>"/>', $compiling);
 		$compiling = preg_replace('/{\_\$(.[^}]*?)}/', '<?php echo $\\1;?>',$compiling);
-		$compiling = preg_replace('/{link\.{\$(.[^}]*?)\.(.*?)}}/', '<?php echo $qgeneral[\'url_base\'].(($serverinfos[\'mod_rewrite\'] == false) ? \'index.php?\' : \'\').str_replace(\'index.php\', \'\', $\\1[\'\\2\']);?>',$compiling);
-		$compiling = preg_replace('/{link\.{\$(.*?)}}/', '<?php echo $qgeneral[\'url_base\'].(($serverinfos[\'mod_rewrite\'] == false) ? \'index.php?\' : \'\').str_replace(\'index.php\', \'\', $var[\'\\1\']); ?>',$compiling);
-		$compiling = preg_replace('/{link\.(.*?)}/', '<?php echo $qgeneral[\'url_base\'].\'index.php?\\1\';?>',$compiling);
         $compiling = preg_replace('/{\$(.[^}]*?)\.(.*?)}/', '<?php echo $\\1[\'\\2\'];?>',$compiling);
         $compiling = preg_replace('/{\_(.[^}]*?)\.(.*?)}/', '<?php echo $var[\'\\1\'][\'\\2\'];?>',$compiling);
         $compiling = preg_replace('/{lang\.(.*?)}/', '<?php echo $lang[\'\\1\'];?>',$compiling);
-		$compiling = preg_replace('/{link\.(.*?)}/', '<?php echo $qgeneral[\'url_base\'].\'index.php?\\1\';?>',$compiling);
         $compiling = preg_replace('/{qg\.(.*?)}/', '<?php echo $qgeneral[\'\\1\'];?>',$compiling);
         $compiling = preg_replace('/\[qg\.(.*?)\]/', '$qgeneral[\'\\1\']',$compiling);
         $compiling = preg_replace('/{user\.(.*?)}/', '<?php echo $user->getValues(\'\\1\');?>',$compiling);
@@ -414,11 +410,10 @@ public function setTplDir($tpldir, $tplname){
     }
 
 	private function makeLink($link) {
-        global $qgeneral, $lang;
+        global $qgeneral;
 		if($link[1] == '' || $link[1] == 'index.php' || $link[1] == 'index.php?')
-        
-		//echo $qgeneral['url_base'].(($serverinfos['mod_rewrite'] == false) ? 'index.php?' : '').str_replace('index.php', '',$a);
-        return $html;
+        return $qgeneral['url_base'];
+		return $qgeneral['url_base'].(($serverinfos['mod_rewrite'] == false) ? 'index.php?' : '').$link[1];
     }
 
     /**

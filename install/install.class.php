@@ -84,8 +84,8 @@ public function createFolders(){
       $this->db = new DBDriver($this->hostname, $this->username, $this->password, $this->database);
         $sql = str_replace('##PREFIX##', $this->tbl_prefix, file_get_contents('sqlwp.sql'));
         echo $this->db->executeSqlFile($sql);
-		$this->db->query("INSERT INTO ".$this->tbl_prefix."dev_general VALUES (0,'".$this->lang."',1,'".$title."', '".$desc."','default','','".$purl."','admintasia',0,'','0.9','','','','The website is closed for some tests, Coming soon', 'Europe/Rome')");
-       $this->db->query("INSERT INTO ".$this->tbl_prefix."dev_users VALUES (1, '".$_POST['username']."', '".$_POST['email']."', '".md5($_POST['password'])."', '".$this->lang."', 'default', '3', '1', '', 'Europe/Rome')");
+		$this->db->query("INSERT INTO ".$this->tbl_prefix."dev_general VALUES (0,'".$this->lang."',1,'".$title."', '".$desc."','default','','".$purl."','admintasia',0,'','0.9','','','','The website is closed for some tests, Coming soon', '".$_POST['timez']."')");
+       $this->db->query("INSERT INTO ".$this->tbl_prefix."dev_users VALUES (1, '".$_POST['username']."', '".$_POST['email']."', '".md5($_POST['password'])."', '".$this->lang."', 'default', '3', '1', '', '".$_POST['timez']."')");
     }
 
     public function writeConfig() {
@@ -144,6 +144,7 @@ RewriteRule ^\.htaccess$ - [F]
 
 # Base Rules
 RewriteRule ^acp$ acp/index.php
+RewriteRule ^mode=(.*)&ajax=(.*)$ index.php?mode=$1&ajax=$2
 # Base Rules
 ";
 	if(is_writable('../')){

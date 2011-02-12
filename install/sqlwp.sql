@@ -10,6 +10,7 @@ CREATE TABLE `##PREFIX##dev_modules` (
   `site` varchar(255) NOT NULL,
   `datarelease` varchar(255) NOT NULL,
   `depends` text NOT NULL,
+  `xmlrpc` VARCHAR(3) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -39,6 +40,7 @@ CREATE TABLE `##PREFIX##dev_menus` (
   `link` varchar(255) DEFAULT NULL,
   `position` int(11) NOT NULL,
   `parent` int(11) NOT NULL DEFAULT '0',
+  `parentstr` varchar(255),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8;
 

@@ -191,15 +191,11 @@ public function setTplDir($tpldir, $tplname){
 
         $tpl = file_get_contents($template_dir . '/' . $tpl_name);
         $compiling = preg_replace('/{title}/', $this->getTitle(), $tpl);
-		$compiling = str_replace('{csrftoken}', '<input type="hidden" name="csrftoken" value="<?php echo ((is_object($user) && $user->isOnGroup(\'Administrator\') OR $user->isOnGroup(\'JuniorAdmin\')) ? $_SESSION[\'TOKEN\'] : \'\'); ?>"/>');
+		$compiling = str_replace('{csrftoken}', '<input type="hidden" name="csrftoken" value="<?php echo ((is_object($user) && $user->isOnGroup(\'Administrator\') OR $user->isOnGroup(\'JuniorAdmin\')) ? $_SESSION[\'TOKEN\'] : \'\'); ?>"/>', $compiling);
 		$compiling = preg_replace('/{\_\$(.[^}]*?)}/', '<?php echo $\\1;?>',$compiling);
-		$compiling = preg_replace('/{link\.{\$(.[^}]*?)\.(.*?)}}/', '<?php echo $qgeneral[\'url_base\'].(($serverinfos[\'mod_rewrite\'] == false) ? \'index.php?\' : \'\').str_replace(\'index.php\', \'\', $\\1[\'\\2\']);?>',$compiling);
-		$compiling = preg_replace('/{link\.{\$(.*?)}}/', '<?php echo $qgeneral[\'url_base\'].(($serverinfos[\'mod_rewrite\'] == false) ? \'index.php?\' : \'\').str_replace(\'index.php\', \'\', $var[\'\\1\']); ?>',$compiling);
-		$compiling = preg_replace('/{link\.(.*?)}/', '<?php echo $qgeneral[\'url_base\'].\'index.php?\\1\';?>',$compiling);
         $compiling = preg_replace('/{\$(.[^}]*?)\.(.*?)}/', '<?php echo $\\1[\'\\2\'];?>',$compiling);
         $compiling = preg_replace('/{\_(.[^}]*?)\.(.*?)}/', '<?php echo $var[\'\\1\'][\'\\2\'];?>',$compiling);
         $compiling = preg_replace('/{lang\.(.*?)}/', '<?php echo $lang[\'\\1\'];?>',$compiling);
-		$compiling = preg_replace('/{link\.(.*?)}/', '<?php echo $qgeneral[\'url_base\'].\'index.php?\\1\';?>',$compiling);
         $compiling = preg_replace('/{qg\.(.*?)}/', '<?php echo $qgeneral[\'\\1\'];?>',$compiling);
         $compiling = preg_replace('/\[qg\.(.*?)\]/', '$qgeneral[\'\\1\']',$compiling);
         $compiling = preg_replace('/{user\.(.*?)}/', '<?php echo $user->getValues(\'\\1\');?>',$compiling);
@@ -234,6 +230,7 @@ public function setTplDir($tpldir, $tplname){
         $compiling = preg_replace('/(?:{loop(?:\s+)name="(.*?)"})/', '<?php $counter_\\1=0; foreach($var[\'\\1\'] as $key => $\\1){ $counter_\\1++; ?>',$compiling);
         $compiling = str_replace('{/loop}', '<?php } ?>',$compiling);
 		$compiling = preg_replace_callback('/{jsandcss(?:\s+)js="(.*?)"(?:\s+)css="(.*?)"}/', array( &$this, 'getJSAndCSS'), $compiling);
+		$compiling = preg_replace_callback('/{link\.(.*?)}/', array( &$this, 'makeLink'), $compiling);
         if($tpl_name != 'master.page')
             $compiling = preg_replace_callback('/(?:{content(?:\s+)name="(.*?)"}([\S|\s]*?){\/content})/', array( &$this, 'setFileContent'), $compiling);
 
@@ -410,6 +407,13 @@ public function setTplDir($tpldir, $tplname){
         $html .= '<script type="text/javascript" src="'.$qgeneral['url_base'].'system/pages/bootstrap.js.php?'.$jsws.$jsi[1].'"></script>';
 
         return $html;
+    }
+
+	private function makeLink($link) {
+        global $qgeneral;
+		if($link[1] == '' || $link[1] == 'index.php' || $link[1] == 'index.php?')
+        return $qgeneral['url_base'];
+		return $qgeneral['url_base'].(($serverinfos['mod_rewrite'] == false) ? 'index.php?' : '').$link[1];
     }
 
     /**

@@ -10,7 +10,7 @@ if (isset($closed)) {
 
 $tpl->assign('site_title', $qgeneral['title']);
 $tpl->assign('sub_site_title', $qgeneral['descr']);
-if (is_object($user) && ($user->isOnGroup('Administrator') OR $user->isOnGroup('JuniorAdmin'))
+if (is_object($user) && ($user->isOnGroup('Administrator') OR $user->isOnGroup('JuniorAdmin')))
     $tpl->assign('top_menu', $db->query('Select * From ' . $database['tbl_prefix'] . 'dev_menus where type = ? AND view >= ? ORDER BY position', DBDriver::ALIST, array(1, 1), true));
 else if (is_object($user) && !$user->isOnGroup('JuniorAdmin') && !$user->isOnGroup('Administrator'))
     $tpl->assign('top_menu', $db->query('Select * From ' . $database['tbl_prefix'] . 'dev_menus where type = ? AND view >= ? AND view < ? ORDER BY position', DBDriver::ALIST, array(1, 1, 3), true));

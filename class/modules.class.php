@@ -75,7 +75,7 @@ $tpl->assign('typeerror', $lang['err_nomod']);
         global $db, $tpl, $qgeneral, $database, $user, $skin, $lang;
         if($name == 'DEFAULT')
             include '../modules/'.$qgeneral['default_module'].'/index.php';
-        else if(isset($name) && $db->query('SELECT id FROM '.$database['tbl_prefix'].'dev_modules WHERE name = ? AND type = ?', DBDriver::COUNT, array($name, 1)) != 0)
+        else if(isset($name) && $db->query('SELECT id FROM '.$database['tbl_prefix'].'dev_modules WHERE name = ? AND status = ?', DBDriver::COUNT, array($name, 1)) != 0)
             include '../modules/'.$name.'/admin/index.php';
         else {
             $tpl->assign('typeerror', $lang['err_nomod']);

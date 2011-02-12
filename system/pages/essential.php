@@ -9,24 +9,16 @@
  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU Public License
  * @version 1.0
  */
-if (substr_count($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip')) 
-	ob_start("ob_gzhandler"); 
-else 
-	ob_start();
-	
+if (substr_count($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip')) ob_start("ob_gzhandler"); else ob_start();
 define('DIR', dirname(__FILE__));
-
-if( !defined('ANECMS') && !defined('ANECMSACP') ) 
-	die ("You can't see this page");
-	
+if(!defined('ANECMS') && !defined('ANECMSACP')) die ('You can\'t see this page');
 session_start();
-
 if(!defined('RSS'))
     header('content-type: text/html; charset: utf-8');
 else
-	header ("content-type: text/xml;  charset: utf-8");
+header ("content-type: text/xml;  charset: utf-8");
 
-if( !file_exists(DIR.'/../../config.php') ) {
+if(!file_exists(DIR.'/../../config.php')) {
     ob_end_clean();
 	if(defined('ANECMS'))
     		header( "Location: ./install/index.php" );

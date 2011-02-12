@@ -59,6 +59,7 @@
 								</label>
 								<div>
 									<select name="defaultmodule" tabindex="6" class="field select small">
+									              <option value="" {if condition="[$cfg.default_module] == ''"}SELECTED{/if}>-</option>
                                 {loop name="dmodule"}
                                     <option value="{$dmodule.name}" {if condition="[$dmodule.name] == [$cfg.default_module]"}SELECTED{/if}>{$dmodule.name}</option>
                                 {/loop}

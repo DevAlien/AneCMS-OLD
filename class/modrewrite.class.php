@@ -135,7 +135,7 @@ class ModRewrite {
       //matching any Rule to current Url??
       
       $onlythepath = parse_url($this->path2check,PHP_URL_PATH);
-      if (preg_match('/' . $thisRule["expr"] . '/', $onlythepath)) {
+      if (preg_match('/' . str_replace('/', '\/', $thisRule["expr"]) . '/', $onlythepath)) {
         //parse redirect url
 	if($thisRule['redirect'] == 'acp/index.php'){
     		ob_end_clean();

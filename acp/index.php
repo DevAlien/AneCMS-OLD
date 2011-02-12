@@ -35,7 +35,7 @@ switch ($_GET['p']) {
 $tpl->assign('typepage', $type);
 
 if($type == 103){
-  $tpl->assign('sidenavmodules', $db->query('SELECT a.id as aid, a.name as aname, b.name, IFNULL(b.link, \'\') link FROM '.$database['tbl_prefix'].'dev_menus a inner join '.$database['tbl_prefix'].'dev_menus b on a.id = b.parent WHERE a.type = ? AND a.parent = ? ORDER BY aid, b.position', DBDriver::ALIST, array(104, 0)));
+  $tpl->assign('sidenavmodules', $db->query('SELECT a.id as aid, a.name as aname, b.name, IFNULL(b.link, \'\') link FROM '.$database['tbl_prefix'].'dev_menus a inner join '.$database['tbl_prefix'].'dev_menus b on a.name = b.parentstr WHERE a.type = ? AND a.parent = ? ORDER BY aid, b.position', DBDriver::ALIST, array(104, 0)));
   $tpl->assign('countm', -1);
 }
 $tpl->assign('sidenav', $db->query('SELECT * FROM '.$database['tbl_prefix'].'dev_menus where type = ? order by position ASC', DBDriver::ALIST, array($type)));

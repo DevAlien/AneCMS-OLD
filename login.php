@@ -1,12 +1,13 @@
 <?php
 define('ANECMS', true);
 define('ACCESS', true);
+define('LOGIN', true);
 include './system/pages/essential.php';
 
 if(isset($_GET['l'])) {
 	$tpl->assign('site_title', $qgeneral['title']);
 	$tpl->assign('sub_site_title', $qgeneral['descr']);
-	if (is_object($user) && $user->isOnGroup('Administrator') OR $user->isOnGroup('JuniorAdmin'))
+	if (is_object($user) && ($user->isOnGroup('Administrator') OR $user->isOnGroup('JuniorAdmin')))
 	    $tpl->assign('top_menu', $db->query('Select * From ' . $database['tbl_prefix'] . 'dev_menus where type = ? AND view >= ? ORDER BY position', DBDriver::ALIST, array(1, 1), true));
 	else if (is_object($user) && !$user->isOnGroup('JuniorAdmin') && !$user->isOnGroup('Administrator'))
 	    $tpl->assign('top_menu', $db->query('Select * From ' . $database['tbl_prefix'] . 'dev_menus where type = ? AND view >= ? AND view < ? ORDER BY position', DBDriver::ALIST, array(1, 1, 3), true));
@@ -22,7 +23,7 @@ if(isset($_GET['l'])) {
 	else if(isset($_POST['username'])) {
 	$tpl->assign('site_title', $qgeneral['title']);
 	$tpl->assign('sub_site_title', $qgeneral['descr']);
-	if (is_object($user) && $user->isOnGroup('Administrator') OR $user->isOnGroup('JuniorAdmin'))
+	if (is_object($user) && ($user->isOnGroup('Administrator') OR $user->isOnGroup('JuniorAdmin')))
 	    $tpl->assign('top_menu', $db->query('Select * From ' . $database['tbl_prefix'] . 'dev_menus where type = ? AND view >= ? ORDER BY position', DBDriver::ALIST, array(1, 1), true));
 	else if (is_object($user) && !$user->isOnGroup('JuniorAdmin') && !$user->isOnGroup('Administrator'))
 	    $tpl->assign('top_menu', $db->query('Select * From ' . $database['tbl_prefix'] . 'dev_menus where type = ? AND view >= ? AND view < ? ORDER BY position', DBDriver::ALIST, array(1, 1, 3), true));
@@ -45,12 +46,12 @@ if(isset($_GET['l'])) {
         }
         else {
             $user = new User($qlogin);
-			if (is_object($user) && $user->isOnGroup('Administrator') OR $user->isOnGroup('JuniorAdmin'))
+			if (is_object($user) && ($user->isOnGroup('Administrator') OR $user->isOnGroup('JuniorAdmin')))
 	    		$tpl->assign('top_menu', $db->query('Select * From ' . $database['tbl_prefix'] . 'dev_menus where type = ? AND view >= ? ORDER BY position', DBDriver::ALIST, array(1, 1), true));
 			else if (is_object($user) && !$user->isOnGroup('JuniorAdmin') && !$user->isOnGroup('Administrator'))
 	    		$tpl->assign('top_menu', $db->query('Select * From ' . $database['tbl_prefix'] . 'dev_menus where type = ? AND view >= ? AND view < ? ORDER BY position', DBDriver::ALIST, array(1, 1, 3), true));
 	
-            if(is_object($user) && $user->isOnGroup('Administrator') OR $user->isOnGroup('JuniorAdmin'))
+            if(is_object($user) && ($user->isOnGroup('Administrator') OR $user->isOnGroup('JuniorAdmin')))
                 $_SESSION['admin'] = true;
                 $_SESSION['TOKEN'] = Tools::getToken();
 				$_SESSION['logged'] = serialize($user);

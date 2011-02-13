@@ -192,8 +192,8 @@ public function setTplDir($tpldir, $tplname){
         $tpl = file_get_contents($template_dir . '/' . $tpl_name);
         $compiling = preg_replace_callback('/{noparse}([\S|\s]*?){\/noparse}/', array( &$this, 'getNoParse'), $tpl);
         $compiling = preg_replace('/{title}/', $this->getTitle(), $compiling);
-		    $compiling = str_replace('{csrftoken}', '<input type="hidden" name="csrftoken" value="<?php echo ((is_object($user) && $user->isOnGroup(\'Administrator\') OR $user->isOnGroup(\'JuniorAdmin\')) ? $_SESSION[\'TOKEN\'] : \'\'); ?>"/>', $compiling);
-		    $compiling = preg_replace('/{\_\$(.[^}]*?)}/', '<?php echo $\\1;?>',$compiling);
+		$compiling = str_replace('{csrftoken}', '<input type="hidden" name="csrftoken" value="<?php echo ((is_object($user) && $user->isOnGroup(\'Administrator\') OR $user->isOnGroup(\'JuniorAdmin\')) ? $_SESSION[\'TOKEN\'] : \'\'); ?>"/>', $compiling);
+		$compiling = preg_replace('/{\_\$(.[^}]*?)}/', '<?php echo $\\1;?>',$compiling);
         $compiling = preg_replace('/{\$(.[^}]*?)\.(.*?)}/', '<?php echo $\\1[\'\\2\'];?>',$compiling);
         $compiling = preg_replace('/{\_(.[^}]*?)\.(.*?)}/', '<?php echo $var[\'\\1\'][\'\\2\'];?>',$compiling);
         $compiling = preg_replace('/{lang\.(.*?)}/', '<?php echo $lang[\'\\1\'];?>',$compiling);
@@ -216,9 +216,9 @@ public function setTplDir($tpldir, $tplname){
         $compiling = str_replace('{/IFADMIN}', '<?php }?>',$compiling);
         $compiling = str_replace('{IFNOTLOGGED}', '<?php if(!is_a($user, \'User\')){?>',$compiling);
         $compiling = str_replace('{/IFNOTLOGGED}', '<?php }?>',$compiling);
-    		$compiling = preg_replace('/\[\$(.[^]]*?)\.(.*?)\]/', '$\\1[\'\\2\']',$compiling);
-    		$compiling = preg_replace('/\[\$(.*?)\]/', '$var[\'\\1\']',$compiling);
-    		$compiling = preg_replace('/{Tools\:\:(.*?)\.(.*?)}/', '<?php echo Tools::\\1(\\2);?>',$compiling);
+		$compiling = preg_replace('/\[\$(.[^]]*?)\.(.*?)\]/', '$\\1[\'\\2\']',$compiling);
+		$compiling = preg_replace('/\[\$(.*?)\]/', '$var[\'\\1\']',$compiling);
+		$compiling = preg_replace('/{Tools\:\:(.*?)\.(.*?)}/', '<?php echo Tools::\\1(\\2);?>',$compiling);
         $compiling = preg_replace('/{\$(.*?)}/', '<?php echo $var[\'\\1\'];?>',$compiling);
         $compiling = preg_replace('/\[\$(.*?)\]/', '$var[\'\\1\']',$compiling);
         $compiling = preg_replace('/{(.*?)\:\:(.*?)}/', '<?php echo \\1::\\2;?>',$compiling);
@@ -238,11 +238,6 @@ public function setTplDir($tpldir, $tplname){
     }
 
     /**
-
-     *
-     * @return Void
-     */
-    /**
      * Compile template, HTML to PHP
      * @global array $lang
      * @global User $user
@@ -254,7 +249,7 @@ public function setTplDir($tpldir, $tplname){
      * @param boolean $withMasterpage if you can use the masterpage. Default is true
      * @param boolean $echo if you can cache the file and after include it or print the compiled template
      */
-    public function burn($tpl_name, $ext, $withMasterpage = true, $echo = false) {
+    public function burn($tpl_name, $ext, $withMasterpage = true, $echo = false, $return = false) {
         global $lang, $user, $qgeneral, $db, $database, $skin, $serverinfos;
         $var = $this->variables;
         if(!file_exists($this->tpl_dir . '/' . $tpl_name . '.' . $ext)) {
@@ -276,6 +271,7 @@ public function setTplDir($tpldir, $tplname){
                     if($theme['css'] != '') $this->addCSSFile($theme['css']);
                     $this->compileMasterpage();
                 }
+                if($return == false){
                 if(is_writable($this->getCompiledDir() . '/')) {
                     fwrite( fopen( $this->getCompiledDir() . '/' . $tpl_name . '.' . $ext . '_' . $tpltime . '_' . $mastertime . '.php', 'w' ), $this->compiledFile );
                     include $this->getCompiledDir() . '/' . $tpl_name . '.' . $ext . '_' . $tpltime . '_' . $mastertime . '.php';
@@ -284,6 +280,9 @@ public function setTplDir($tpldir, $tplname){
                   mkdir($this->getCompiledDir() . '/',0777, true);
                     eval('?>'.$this->compiledFile);
                 }
+                }
+                else 
+                	return $this->compiledFile;
             }
         }
         else
@@ -404,6 +403,12 @@ public function setTplDir($tpldir, $tplname){
         return $html;
     }
 
+    /**
+     * Prepare links for the cms, it checks if the mod_rewrite is active
+     * 
+     * @param String $link The link to check
+     * @return String
+     */
     private function makeLink($link) {
         global $qgeneral;
     		if($link[1] == '' || $link[1] == 'index.php' || $link[1] == 'index.php?')
@@ -411,6 +416,18 @@ public function setTplDir($tpldir, $tplname){
     		return $qgeneral['url_base'].(($serverinfos['mod_rewrite'] == false) ? 'index.php?' : '').$link[1];
     }
 
+    /**
+     * Modify the brace '{' to the html number to don't parse them
+     * 
+     * @param String $content Content to check if there's something to change
+     * @return String
+     */
+    private function getNoParse($content){
+    	$content = str_replace('{', '&#123;', $content[1]);
+    	$content = str_replace('}', '&#125;', $content);
+    	return $content;
+    }
+    
     /**
      *Get the title of the page
      *

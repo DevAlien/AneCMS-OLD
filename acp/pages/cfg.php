@@ -9,8 +9,6 @@
 if(isset($_GET['m']) && $_GET['m'] == 'mod') {
     $tpl->assign('cfg', $db->query('SELECT * FROM '.$database['tbl_prefix'].'dev_general', DBDriver::ALIST));
     $tpl->assign('dmodule', $db->query('SELECT * FROM '.$database['tbl_prefix'].'dev_modules WHERE status = ? AND type = ? ORDER By name', DBDriver::ALIST, array(1,1)));
-    $tpl->assign('session_token', $_SESSION['TOKEN']);
-    $tpl->assign('csrfdetect','');
     $tpl->assign('langpd', acp::getLanguage());
 
     echo $tpl->burn( 'cfg_mod', 'tpl' );
@@ -54,7 +52,7 @@ else if( isset($_GET['m']) && $_GET['m'] == 'smod') {
         
 	} else
 		$tpl->assign('csrfdetect','CSRF DETECT');
-	echo $tpl->burn( 'cfg', 'tpl' );
+		echo $tpl->burn( 'cfg', 'tpl' );
 }
 else if(isset($_GET['m']) && $_GET['m'] == 'reposerver') {
 

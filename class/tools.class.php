@@ -233,7 +233,7 @@ class Tools {
 	
 	public static function checkToken () 
 	{
-		if( isset($_POST['token']) && isset($_SESSION['token']) && ($_POST['token'] == $_SESSION['token']) ) {
+		if( isset($_POST['csrftoken']) && isset($_SESSION['token']) && ($_POST['csrftoken'] == $_SESSION['token']) ) {
 			return true;
 		} else {
 			return false;

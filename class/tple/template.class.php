@@ -192,7 +192,7 @@ public function setTplDir($tpldir, $tplname){
         $tpl = file_get_contents($template_dir . '/' . $tpl_name);
         $compiling = preg_replace_callback('/{noparse}([\S|\s]*?){\/noparse}/', array( &$this, 'getNoParse'), $tpl);
         $compiling = preg_replace('/{title}/', $this->getTitle(), $compiling);
-		$compiling = str_replace('{csrftoken}', '<input type="hidden" name="csrftoken" value="<?php echo ((is_object($user) && $user->isOnGroup(\'Administrator\') OR $user->isOnGroup(\'JuniorAdmin\')) ? $_SESSION[\'TOKEN\'] : \'\'); ?>"/>', $compiling);
+		$compiling = str_replace('{csrftoken}', '<input type="hidden" name="csrftoken" value="<?php echo ((is_object($user) && $user->isOnGroup(\'Administrator\') OR $user->isOnGroup(\'JuniorAdmin\')) ? $_SESSION[\'token\'] : \'\'); ?>"/>', $compiling);
 		$compiling = preg_replace('/{\_\$(.[^}]*?)}/', '<?php echo $\\1;?>',$compiling);
         $compiling = preg_replace('/{\$(.[^}]*?)\.(.*?)}/', '<?php echo $\\1[\'\\2\'];?>',$compiling);
         $compiling = preg_replace('/{\_(.[^}]*?)\.(.*?)}/', '<?php echo $var[\'\\1\'][\'\\2\'];?>',$compiling);

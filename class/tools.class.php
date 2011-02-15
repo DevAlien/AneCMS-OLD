@@ -228,7 +228,11 @@ class Tools {
     
 	public static function getToken () 
 	{
-		return md5(uniqid(rand(), TRUE));
+		if( isset($_SESSION['token']) ) {
+			return $_SESSION['token'];
+		} else {
+			return md5(uniqid(rand(), TRUE));
+		}
 	}
 	
 	public static function checkToken () 

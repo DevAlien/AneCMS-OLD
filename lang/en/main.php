@@ -32,6 +32,7 @@ $lang['submit'] = 'Submit';
 //login
 $lang['login_no']		= 'The inserted data are not correct, please check';
 $lang['logout_yes']		= 'You have successfully disconnected';
+$lang['logout']		= 'You have successfully disconnected';
 $lang['redirect_yes']	= 'You will be sent back to the previous page within 3 seconds';
 $lang['redirect_no']	= 'Click below to re-enter data or';
 $lang['redirect_err']	= 'Click "close" to re-enter data ';

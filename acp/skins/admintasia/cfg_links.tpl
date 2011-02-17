@@ -1,4 +1,19 @@
 {content name="breadcrumb"}
+<script type="text/javascript">
+  // When the document is ready set up our sortable with it's inherant function(s)
+  $(document).ready(function() {
+    $("#linksbar-menu").sortable({
+	axis: "y",
+      handle : '.handle',
+	  cursor: "move",
+	  items: 'tr',
+      update : function () {
+		  var order = $('#linksbar-menu').sortable('serialize');
+  		$("#info").load("../index.php?ajax=sortmenus.php&"+order);
+      }
+    });
+});
+</script>
 	<h1>{lang.configuration}</h1>
 	<span><a href="?p=cfg" title="Layout Options">{lang.configuration}</a> > <a href="?p=cfg&m=cfg" title="">{lang.links}</a></span>
 {/content}
@@ -61,23 +76,28 @@
 
 <div class="hastable">
 <div class="inner-page-title">
+<pre>
+<div id="info">Waiting for update</div>
+</pre>
+
 						<h3>{lang.links_overview}</h3>
 					</div>	
 				<div class="content-box">
+				
 					<table cellspacing="0">
 						<thead>
 							<tr>
+								<th width="30px">#</th>
 								<th>{lang.name}</th>
-								<th>{lang.link}</th>
+								<th width="*">{lang.link}</th>
                                 <th width="128px">{lang.options}</th>
 							</tr>
 						</thead>
-						<tbody>
-							<tr class="alt">
-								<td colspan="3">{lang.linkbar}</td>
-							</tr>
+						<tbody id="linksbar-menu">
+							
 							{loop name="linksbar"}
-							<tr>
+							<tr id="listItem_{$linksbar.id}" width="100%">
+								<td><a class="btn ui-state-default ui-corner-all handle" style="cursor: move;"><span class="ui-icon  ui-icon-arrow-2-n-s"></span>&nbsp;</a></li>
                                 <td>{$linksbar.name}</td>
 								<td>{$linksbar.link}</td>
 								<td>
@@ -87,45 +107,9 @@
 									<a class="btn_no_text btn ui-state-default ui-corner-all first" title="{lang.delete}" href="?p=cfg&m=links&a=delete&id={$linksbar.id}">
 										<span class="ui-icon ui-icon-circle-close"></span>
 									</a>
-									{if condition="[$linksbar.position] != 1"}
-									<a class="btn_no_text btn ui-state-default ui-corner-all first" title="{lang.moveup}" href="?p=cfg&m=links&a=move&type=up&id={$linksbar.id}">
-										<span class="ui-icon ui-icon-carat-1-n"></span>
-									</a>
-									{/if}
-									{if condition="([counter.linksbar] != [$countlinksbar])"}
-									<a class="btn_no_text btn ui-state-default ui-corner-all first" title="{lang.movedown}" href="?p=cfg&m=links&a=move&type=down&id={$linksbar.id}">
-										<span class="ui-icon ui-icon-carat-1-s"></span>
-									</a>
-									{/if}
+									
 								</td>
                             </tr>
-							{/loop}
-							<tr class="alt">
-								<td colspan="4">{lang.linkmenu}</td>
-							</tr>
-							{loop name="linksmenu"}
-							<tr>
-                                <td>{$linksmenu.name}</td>
-								<td>{$linksmenu.link}</td>
-								<td>
-								<a class="btn_no_text btn ui-state-default ui-corner-all first" title="{lang.modify}" href="?p=cfg&m=links&a=modify&id={$linksmenu.id}">
-										<span class="ui-icon ui-icon-wrench"></span>
-									</a>
-									<a class="btn_no_text btn ui-state-default ui-corner-all first" title="{lang.delete}" href="?p=cfg&m=links&a=delete&id={$linksmenu.id}">
-										<span class="ui-icon ui-icon-circle-close"></span>
-									</a>
-									{if condition="[$linksmenu.position] != 1"}
-									<a class="btn_no_text btn ui-state-default ui-corner-all first" title="{lang.moveup}" href="?p=cfg&m=links&a=move&type=up&id={$linksmenu.id}">
-										<span class="ui-icon ui-icon-carat-1-n"></span>
-									</a>
-									{/if}
-									{if condition="([counter.linksmenu] != [$countlinksmenu])"}
-									<a class="btn_no_text btn ui-state-default ui-corner-all first" title="{lang.movedown}" href="?p=cfg&m=links&a=move&type=down&id={$linksmenu.id}">
-										<span class="ui-icon ui-icon-carat-1-s"></span>
-									</a>
-									{/if}
-								</td>
-							</tr>
 							{/loop}
 						</tbody>
                     </table>

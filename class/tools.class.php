@@ -226,8 +226,7 @@ class Tools {
             return $url;
     }
     
-	public static function getToken () 
-	{
+	public static function getToken (){
 		if( isset($_SESSION['token']) ) {
 			return $_SESSION['token'];
 		} else {
@@ -242,6 +241,62 @@ class Tools {
 		} else {
 			return false;
 		}
-	}		
+	}
+	
+	public static function timeElapsed ($time){
+		global $lang;
+	    $time = time() - $time;
+	
+	    $tokens = array (
+	        31536000 => 'year',
+	        2592000 => 	'month',
+	        604800 => 	'week',
+	        86400 => 	'day',
+	        3600 => 	'hour',
+	        60 => 		'minute',
+	        1 => 		'second'
+	    );
+	
+	    foreach ($tokens as $unit => $text) {
+	        if ($time < $unit) continue;
+	        $numberOfUnits = floor($time / $unit);
+	        return $numberOfUnits .' '. (( $numberOfUnits > 1 )? $lang[$text.'s'] : $lang[$text]);
+	    }
+	}
+	
+	public static function timeTo ($time){
+		global $lang;
+	    $time = $time - time();
+	
+	    $tokens = array (
+	        31536000 => 'year',
+	        2592000 => 	'month',
+	        604800 => 	'week',
+	        86400 => 	'day',
+	        3600 => 	'hour',
+	        60 => 		'minute',
+	        1 => 		'second'
+	    );
+	
+	    foreach ($tokens as $unit => $text) {
+	        if ($time < $unit) continue;
+	        $numberOfUnits = floor($time / $unit);
+	        return $numberOfUnits .' '. (( $numberOfUnits > 1 )? $lang[$text.'s'] : $lang[$text]);
+	    }
+	}
+	
+	public static function cut( $string, $length, $ending = "..." ){
+		if( strlen( $string ) > $length )
+			return $string = substr( $string, 0, $length ) . $ending;
+		else
+			return $string = substr( $string, 0, $length );
+	}
+	
+	public static function randStr($length = 5, $chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890'){
+	    $chars_length = (strlen($chars) - 1);
+	    for ($i = 0; $i < $length; $i = strlen($string))
+	        $string .= $chars{rand(0, $chars_length)};
+	    return $string;
+	}
 }
 ?>

@@ -325,10 +325,21 @@ public function setTplDir($tpldir, $tplname){
      * @return String
      */
     private function setFileContent($content) {
-        $this->fileContent[$content[1]] = $content[2];
-        return $content[2];
+    	if(key_exists($content[1], $this->fileContent))
+        	$this->fileContent[$content[1]] .= $content[2];
+		else
+			$this->fileContent[$content[1]] = $content[2];
     }
 
+	public function setContent($contentname, $content, $overwrite = false){
+		if($overwrite == false){
+			if(key_exists($contentname, $this->fileContent))
+				$this->fileContent[$contentname] .= $content;
+		}
+		else
+			$this->fileContent[$contentname] = $content;
+		
+	}
     /**
      * I don't know
      *

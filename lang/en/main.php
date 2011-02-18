@@ -15,6 +15,22 @@
 +--------------------------------------------------------------------------
 */
 $lang = array();
+//General
+$lang['year'] = 'Year';
+$lang['years'] = 'Years';
+$lang['month'] = 'Month';
+$lang['months'] = 'Months';
+$lang['week'] = 'Week';
+$lang['weeks'] = 'Weeks';
+$lang['day'] = 'Day';
+$lang['days'] = 'Days';
+$lang['hour'] = 'Hour';
+$lang['hours'] = 'Hours';
+$lang['minute'] = 'Minute';
+$lang['minutes'] = 'Minutes';
+$lang['second'] = 'Second';
+$lang['seconds'] = 'Seconds';
+
 //Infos
 $lang['gen-time'] 		= 'This page was generated in:';
 $lang['queries'] 		= 'Executed Query:';

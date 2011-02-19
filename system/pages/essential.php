@@ -38,6 +38,12 @@ include DIR.'/../../class/user.class.php';
 include DIR.'/../../class/templates.class.php';
 include DIR.'/../../class/widget.class.php';
 
+if( get_magic_quotes_gpc() ) {
+	$_GET    = array_map( array('Tools', 'sanitizeRequest'), $_GET);
+	$_POST   = array_map( array('Tools', 'sanitizeRequest'), $_POST);
+	$_COOKIE = array_map( array('Tools', 'sanitizeRequest'), $_COOKIE);
+}
+
 $init = new init();
 $db = $init->selectTypeDatabase($database['type']);
 

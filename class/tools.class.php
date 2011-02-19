@@ -226,7 +226,8 @@ class Tools {
             return $url;
     }
     
-	public static function getToken (){
+	public static function getToken() 
+	{
 		if( isset($_SESSION['token']) ) {
 			return $_SESSION['token'];
 		} else {
@@ -234,13 +235,21 @@ class Tools {
 		}
 	}
 	
-	public static function checkToken () 
+	public static function checkToken() 
 	{
 		if( isset($_POST['csrftoken']) && isset($_SESSION['token']) && ($_POST['csrftoken'] == $_SESSION['token']) ) {
 			return true;
 		} else {
 			return false;
 		}
+	}
+	
+	public static function sanitizeRequest( $content )
+	{
+		if( is_array( $content ) )
+			foreach ($content as $key => $value) $content[$key] = sanitizeRequest( $value );
+		else
+			return stripcslashes( $content );
 	}
 	
 	public static function timeElapsed ($time){

@@ -52,7 +52,11 @@ class Install {
 				$phpinfo = ob_get_clean();
 				if ( false !== strpos($phpinfo, 'mod_rewrite') )
 					return true;
+				else 
+					return false;
 			}
+			else
+				return false;
 		}
 		else
 			$this->modrew = false;
@@ -144,7 +148,6 @@ RewriteRule ^\.htaccess$ - [F]
 
 # Base Rules
 RewriteRule ^acp$ acp/index.php
-RewriteRule ^mode=(.*)&ajax=(.*)$ index.php?mode=$1&ajax=$2
 # Base Rules
 ";
 	if(is_writable('../')){

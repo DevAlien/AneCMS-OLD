@@ -44,7 +44,7 @@ CREATE TABLE `##PREFIX##dev_menus` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8;
 
-INSERT INTO `##PREFIX##dev_menus` VALUES (5,1,'ACP',3,'acp',4,0),(13,2,'acp',3,'acp',1,0),(14,1,'home',1,'index.php',3,0),(20,100,'dashboard_modify',1,'?m=mod',2,0),(21,100,'dashboard',1,'index.php',1,0),(22,101,'repositorycfg',1,'?p=cfg&m=reposerver',4,0),(23,101,'linkscfg',1,'?p=cfg&m=links',3,0),(24,101,'modcfg',1,'?p=cfg&m=mod',2,0),(25,101,'viewcfg',1,'?p=cfg',1,0),(30,103,'modadd',1,'?p=mod&m=search',2,0),(31,103,'modview',1,'?p=mod',1,0),(32,102,'tplmanage',1,'?p=tpl',1,0),(33,102,'modify',1,'?p=tpl&m=modify',2,0),(47,100,'dashboard_errors',1,'?m=errors',3,0),(48,3,'Dashboard',1,'acp/index.php',1,0),(49,3,'Configuration',1,'acp/?p=cfg',2,0),(50,3,'Design',1,'acp/?p=tpl',3,0),(51,3,'Modules',1,'acp/?p=mod',4,0);
+INSERT INTO `##PREFIX##dev_menus` VALUES (5,1,'ACP',3,'acp',4,0,''),(13,2,'acp',3,'acp',1,0,''),(14,1,'home',1,'index.php',3,0,''),(20,100,'dashboard_modify',1,'?m=mod',2,0,''),(21,100,'dashboard',1,'index.php',1,0,''),(22,101,'repositorycfg',1,'?p=cfg&m=reposerver',4,0,''),(23,101,'linkscfg',1,'?p=cfg&m=links',3,0,''),(24,101,'modcfg',1,'?p=cfg&m=mod',2,0,''),(25,101,'viewcfg',1,'?p=cfg',1,0,''),(30,103,'modadd',1,'?p=mod&m=search',2,0,''),(31,103,'modview',1,'?p=mod',1,0,''),(32,102,'tplmanage',1,'?p=tpl',1,0,''),(33,102,'modify',1,'?p=tpl&m=modify',2,0,''),(47,100,'dashboard_errors',1,'?m=errors',3,0,''),(48,3,'Dashboard',1,'acp/index.php',1,0,''),(49,3,'Configuration',1,'acp/?p=cfg',2,0,''),(50,3,'Design',1,'acp/?p=tpl',3,0,''),(51,3,'Modules',1,'acp/?p=mod',4,0,'');
 
 CREATE TABLE `##PREFIX##dev_servers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

@@ -421,7 +421,7 @@ public function setTplDir($tpldir, $tplname){
      * @return String
      */
     private function makeLink($link) {
-        global $qgeneral;
+        global $qgeneral, $serverinfos;
     		if($link[1] == '' || $link[1] == 'index.php' || $link[1] == 'index.php?')
             return $qgeneral['url_base'];
     		return $qgeneral['url_base'].(($serverinfos['mod_rewrite'] == false) ? 'index.php?' : '').$link[1];
@@ -447,7 +447,7 @@ public function setTplDir($tpldir, $tplname){
      */
     private function getTitle() {
         global $qgeneral;
-        return $qgeneral['title']. ' ' . $this->title . ' - Powered By ANECMS';
+        return $qgeneral['title']. ' ' . $this->title;
     }
 
     /**

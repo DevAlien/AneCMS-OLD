@@ -9,7 +9,7 @@
 	  items: 'tr',
       update : function () {
 		  var order = $('#linksbar-menu').sortable('serialize');
-  		$("#info").load("../index.php?ajax=sortmenus.php&"+order);
+  		$("#info").load("../index.php?ajax=sortmenus&"+order);
       }
     });
 });

@@ -53,7 +53,7 @@ if(isset($_GET['l'])) {
 	
             if(is_object($user) && ($user->isOnGroup('Administrator') OR $user->isOnGroup('JuniorAdmin')))
                 $_SESSION['admin'] = true;
-                $_SESSION['TOKEN'] = Tools::getToken();
+                $_SESSION['token'] = Tools::getToken();
 				$_SESSION['logged'] = serialize($user);
 
             setcookie('ANECMSUser', serialize($user), time() + 3600000);

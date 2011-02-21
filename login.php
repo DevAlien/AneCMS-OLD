@@ -2,9 +2,12 @@
 define('ANECMS', true);
 define('ACCESS', true);
 define('LOGIN', true);
+
 include './system/pages/essential.php';
 
-if(isset($_GET['l'])) {
+ 
+	
+if(isset($_GET['logout'])) {
 	$tpl->assign('site_title', $qgeneral['title']);
 	$tpl->assign('sub_site_title', $qgeneral['descr']);
 	if (is_object($user) && ($user->isOnGroup('Administrator') OR $user->isOnGroup('JuniorAdmin')))
@@ -19,7 +22,10 @@ if(isset($_GET['l'])) {
         $tpl->burn('error1', 'tpl');
 	    setcookie('ANECMSUser', '', time() - 3600000);
 	    session_destroy();
-	}
+} else if( $init->checkCookie() || isset($_SESSION['logged']) ) {
+	header( "Location: acp/index.php" );
+	die();
+}
 	else if(isset($_POST['username'])) {
 	$tpl->assign('site_title', $qgeneral['title']);
 	$tpl->assign('sub_site_title', $qgeneral['descr']);
@@ -50,13 +56,18 @@ if(isset($_GET['l'])) {
 	    		$tpl->assign('top_menu', $db->query('Select * From ' . $database['tbl_prefix'] . 'dev_menus where type = ? AND view >= ? ORDER BY position', DBDriver::ALIST, array(1, 1), true));
 			else if (is_object($user) && !$user->isOnGroup('JuniorAdmin') && !$user->isOnGroup('Administrator'))
 	    		$tpl->assign('top_menu', $db->query('Select * From ' . $database['tbl_prefix'] . 'dev_menus where type = ? AND view >= ? AND view < ? ORDER BY position', DBDriver::ALIST, array(1, 1, 3), true));
-	
-            if(is_object($user) && ($user->isOnGroup('Administrator') OR $user->isOnGroup('JuniorAdmin')))
-                $_SESSION['admin'] = true;
-                $_SESSION['token'] = Tools::getToken();
-				$_SESSION['logged'] = serialize($user);
+			if( !empty($_POST['remember']) ) {
+				if(is_object($user) && ($user->isOnGroup('Administrator') OR $user->isOnGroup('JuniorAdmin')))
+					$_SESSION['admin'] = true;
+					$_SESSION['token'] = Tools::getToken();
+					$_SESSION['logged'] = serialize($user);
 
-            setcookie('ANECMSUser', serialize($user), time() + 3600000);
+				setcookie('ANECMSUser', serialize($user), time() + 3600000);
+			} else {
+					$_SESSION['admin'] = true;
+					$_SESSION['token'] = Tools::getToken();
+					$_SESSION['logged'] = serialize($user);
+			}
             if(isset($_GET['normal'])) {
                 $tpl->assign('typeerror', $lang['compli']);
                 $tpl->assign('descrerror', $lang['login_yes']);

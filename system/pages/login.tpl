@@ -174,7 +174,7 @@ p.submit input {
 			<div class="field"><input type="password" name="password" id="password" class="text_input" /></div>
 		</div>
 		<p class="submit">
-
+			<input type="checkbox" value="rememberme" name="remember">Remember me
 			<input type="submit" value="Login" />
 			<input type="hidden" name="do" value="login" />
 		</p>

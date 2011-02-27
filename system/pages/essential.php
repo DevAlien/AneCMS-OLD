@@ -10,7 +10,7 @@
  * @version 1.0
  */
 if (substr_count($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip')) ob_start("ob_gzhandler"); else ob_start();
-define('DIR', dirname(__FILE__));
+define('ROOT_PATH', dirname(__FILE__).'/../../');
 if(!defined('ANECMS') && !defined('ANECMSACP')) die ('You can\'t see this page');
 session_start();
 if(!defined('RSS'))
@@ -18,7 +18,7 @@ if(!defined('RSS'))
 else
 header ("content-type: text/xml;  charset: utf-8");
 
-if(!file_exists(DIR.'/../../config.php')) {
+if(!file_exists(ROOT_PATH.'config.php')) {
     ob_end_clean();
 	if(defined('ANECMS'))
     		header( "Location: ./install/index.php" );
@@ -29,14 +29,12 @@ if(!file_exists(DIR.'/../../config.php')) {
 	die();
 }
 
-include DIR.'/../../config.php';
-include DIR.'/../../class/tple/template.class.php';
-include DIR.'/../../class/init.class.php';
-include DIR.'/../../class/modules.class.php';
-include DIR.'/../../class/tools.class.php';
-include DIR.'/../../class/user.class.php';
-include DIR.'/../../class/templates.class.php';
-include DIR.'/../../class/widget.class.php';
+include ROOT_PATH.'config.php';
+
+function __autoload( $classname )
+{
+	include ROOT_PATH.'class/'.strtolower($classname).'.class.php';
+}
 
 if( get_magic_quotes_gpc() ) {
 	$_GET    = array_map( array('Tools', 'sanitizeRequest'), $_GET);
@@ -81,7 +79,7 @@ if(!defined('RSS') || !defined('XMLRPC')){
 }
 }
 else if(defined('ANECMSACP')){
-include DIR.'/../../class/acp.class.php';
+include ROOT_PATH.'class/acp.class.php';
 init::loadACPPreferences();
 
 if(!isset($user) || !$user->isOnGroup('Administrator')){

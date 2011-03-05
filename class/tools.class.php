@@ -244,9 +244,11 @@ class Tools {
 		}
 	}
 	
-	public static function sanitizeRequest( $content )
+	public static function sanitizeRequest( $content = '' )
 	{
-		if( is_array( $content ) )
+		if( is_null($content) || $content == '')
+			return null;
+		if( is_array($content) )
 			foreach ($content as $key => $value) $content[$key] = sanitizeRequest( $value );
 		else
 			return stripcslashes( $content );
@@ -307,5 +309,24 @@ class Tools {
 	        $string .= $chars{rand(0, $chars_length)};
 	    return $string;
 	}
+	
+	public static function aneLoad( $fload )
+	{
+		if( is_array($fload) ) {
+			foreach( $fload as $files) {
+				
+				if( file_exists($files) )
+					require_once( $files );
+				else 
+					return "File doesn't exists";
+			}
+		} else {
+				if( file_exists($fload) )
+					require_once( $fload );
+				else 
+					return "File $fload doesn't exists";
+		}
+	}
+
 }
 ?>

@@ -105,6 +105,13 @@ class Template {
     private $fileContent = array();
 
     /**
+     * Array with the meta tag
+     * 
+     * @var array
+     */
+    private $metatag = array();
+    
+    /**
      * name of page
      *
      * @var string
@@ -134,7 +141,8 @@ class Template {
     private function getCompiledDir(){
       return $this->tmpdir.str_replace('./', 'cache/',$this->tpl_dir);
     }
-public function setTplDir($tpldir, $tplname){
+    
+	public function setTplDir($tpldir, $tplname){
       $this->name = $tplname;
       $this->tpl_dir = $tpldir;
         $this->masterpage = $this->tpl_dir.'/master.page';
@@ -170,10 +178,27 @@ public function setTplDir($tpldir, $tplname){
         $this->variables[ $variable_name ] = $value;
     }
 
-    private function preparePage() {
-
+    /**
+     * Add Meta tags
+     * 
+     * @param string $metaname
+     * @param string $metacontent
+     * @param boolean $append
+     */
+    public function addMetaTag($metaname, $metacontent, $append = true){
+    	if($append == true)
+    		$this->metatag[$metaname] .= $metacontent;
+    	else
+    		$this->metatag[$metaname] = $metacontent;
     }
-
+    
+    public function getMetaTag(){
+    	$metatags = '';
+    	foreach($this->metatag as $key => $value)
+    		$metatags .= '<meta name="'.$key.'" content="'.$key.'" />'."\n\r";
+    	return $metatags;
+    }
+    
     /**
      * Delete old compiled file and compile a new file
      *
@@ -229,8 +254,9 @@ public function setTplDir($tpldir, $tplname){
         $compiling = str_replace('{/if}', '<?php } ?>',$compiling);
         $compiling = preg_replace('/(?:{loop(?:\s+)name="(.*?)"})/', '<?php $counter_\\1=0; foreach($var[\'\\1\'] as $key => $\\1){ $counter_\\1++; ?>',$compiling);
         $compiling = str_replace('{/loop}', '<?php } ?>',$compiling);
-    		$compiling = preg_replace_callback('/{jsandcss(?:\s+)js="(.*?)"(?:\s+)css="(.*?)"}/', array( &$this, 'getJSAndCSS'), $compiling);
-    		$compiling = preg_replace_callback('/{link\.(.*?)}/', array( &$this, 'makeLink'), $compiling);
+    	$compiling = preg_replace_callback('/{jsandcss(?:\s+)js="(.*?)"(?:\s+)css="(.*?)"}/', array( &$this, 'getJSAndCSS'), $compiling);
+    	$compiling = preg_replace_callback('/{link\.(.*?)}/', array( &$this, 'makeLink'), $compiling);
+    	$compiling = str_replace('{metatags}', $this->getMetaTag(), $compiling);
         if($tpl_name != 'master.page')
             $compiling = preg_replace_callback('/(?:{content(?:\s+)name="(.*?)"}([\S|\s]*?){\/content})/', array( &$this, 'setFileContent'), $compiling);
 

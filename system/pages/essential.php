@@ -10,7 +10,7 @@
  * @version 1.0
  */
 if (substr_count($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip')) ob_start("ob_gzhandler"); else ob_start();
-define('ROOT_PATH', dirname(__FILE__).'/../../');
+define('ROOT_PATH', str_replace('system/pages','', str_replace('\\','/',dirname(__FILE__))));
 if(!defined('ANECMS') && !defined('ANECMSACP')) die ('You can\'t see this page');
 session_start();
 if(!defined('RSS'))
@@ -30,11 +30,13 @@ if(!file_exists(ROOT_PATH.'config.php')) {
 }
 
 include ROOT_PATH.'config.php';
-
-function __autoload( $classname )
-{
-	include ROOT_PATH.'class/'.strtolower($classname).'.class.php';
-}
+include ROOT_PATH.'class/template.class.php';
+include ROOT_PATH.'class/init.class.php';
+include ROOT_PATH.'class/modules.class.php';
+include ROOT_PATH.'class/tools.class.php';
+include ROOT_PATH.'class/user.class.php';
+include ROOT_PATH.'class/templates.class.php';
+include ROOT_PATH.'class/widget.class.php';
 
 if( get_magic_quotes_gpc() ) {
 	$_GET    = array_map( array('Tools', 'sanitizeRequest'), $_GET);

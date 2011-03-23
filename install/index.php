@@ -104,7 +104,7 @@ function checkPerms(){
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>SmartWizard</title>
+<title>AneCMS Smart Installer</title>
 
 <link href="styles/style_wizard.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="js/jquery-1.3.2.min.js"></script>

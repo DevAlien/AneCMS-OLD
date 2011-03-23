@@ -452,7 +452,7 @@ function validateTabs(tabIdx){
                 <br /><br /><br />
                 <table align="center">
                   <tr>
-                    <td>DB Hostname:</td>
+                    <td>Site Language:</td>
                     <td><?php echo getLanguages(); ?></td>
                   </tr>
             </div>            

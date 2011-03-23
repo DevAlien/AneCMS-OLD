@@ -457,7 +457,6 @@ function validateTabs(tabIdx){
                   </tr>
             </div>            
             <div class="wiz-nav">
-              <input class="back btn" id="back" type="button" value="< Back" />
               <input class="next btn" id="next" type="button" value="Next >" />
             </div>             
         </div>

@@ -1,4 +1,16 @@
 <?php
+/*-------------------------------------------------------+
+| AneCMS
+| Copyright (C) 2010
+| http://anecms.com
++--------------------------------------------------------+
+| Filename: rss.php
+| Author: Gonçalo Margalho
++--------------------------------------------------------+
+| Removal of this copyright header is strictly 
+| prohibited without written permission from 
+| Gonçalo Margalho.
++--------------------------------------------------------*/
 define('ANECMS', true);
 define('RSS', true);
 include './system/pages/essential.php';

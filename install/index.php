@@ -70,7 +70,7 @@ if(isset($_GET['chp'])){
   $v = '<tr><td>'.$l['file'].'</td><td>'.$l['status'].'</td></tr>';
   foreach ($files as $key => $value) {
     echo (substr(sprintf('%o', fileperms($value)), -3));
-      $v .= '<tr><td>'.str_replace('../', './',$value).'/'.'</td><td>'.((((substr(sprintf('%o', fileperms($value)), -3)) == 777) || ((substr(sprintf('%o', fileperms($value)), -3)) == 666)) ? '<span style="color: green">OK</span>' : '<span style="color: red">NOT OK').'</td></tr>';
+      $v .= '<tr><td>'.str_replace('../', './',$value).'/'.'</td><td>'.((((substr(sprintf('%o', fileperms($value)), -3)) == 777) || ((substr(sprintf('%o', fileperms($value)), -3)) == 666)) ? '<span style="color: green">WRITEABLE</span>' : '<span style="color: red">NOT WRITEABLE').'</td></tr>';
   }
   echo $v;
   die();
@@ -96,7 +96,7 @@ function checkPerms(){
   $v = '<tr><td>'.$l['file'].'</td><td>'.$l['status'].'</td></tr>';
   foreach ($files as $key => $value) {
     
-      $v .= '<tr><td>'.str_replace('../', './',$value).'/</td><td>'.((((substr(sprintf('%o', fileperms($value)), -3)) == 777) || ((substr(sprintf('%o', fileperms($value)), -3)) == 666)) ? '<span style="color: green">OK</span>' : '<span style="color: red">NOT OK').'</td></tr>';
+      $v .= '<tr><td>'.str_replace('../', './',$value).'/</td><td>'.((((substr(sprintf('%o', fileperms($value)), -3)) == 777) || ((substr(sprintf('%o', fileperms($value)), -3)) == 666)) ? '<span style="color: green">WRITEABLE</span>' : '<span style="color: red">NOT WRITEABLE').'</td></tr>';
   }
   return $v;
 }

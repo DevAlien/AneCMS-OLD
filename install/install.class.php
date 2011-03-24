@@ -1,15 +1,22 @@
 <?php
-/* 
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
-*/
-
-/**
- * Description of installclass
- *
- * @author Gonçalo
- */
-
+/*-------------------------------------------------------+
+| AneCMS
+| Copyright (C) 2010
+| http://anecms.com
++--------------------------------------------------------+
+| Filename: error.php
+| Author: Gonçalo Margalho
++--------------------------------------------------------+
+| Removal of this copyright header is strictly 
+| prohibited without written permission from 
+| Gonçalo Margalho.
++---------------------------------------------------------+
+|                         NOTES
+|To change this template, choose 
+|Tools | Templates and open the template 
+|in the editor.
+|This file is Description of install class
++------------------------------------------------------------*/
 class Install {
     private $db;
     private $hostname;

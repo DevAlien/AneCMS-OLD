@@ -35,7 +35,7 @@ return $v;
                 <div id="modules"><?php echo check(); ?></div>
             </div>        
             <div class="wiz-nav">
-             <div id="errMsg22" class="error" ></div> <input class="next btn" id="next" type="button" value="Next >" />
+             <div id="errMsg22" class="error" ></div> 
             </div>          
         </div>
 </div>

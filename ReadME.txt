@@ -19,7 +19,7 @@ FILES HERE
 }}}}}}}}}
 Note: Some hosts doesn't allow CHMOD 777, in that case you can use CHMOD 755 if CHMOD 777 fails.
 
-4. Go to your website, and you will be redirected to the Smart installer. If not, you should run installer.php manually by entering your full site url followed by /setup.php. Example: http://www.yourdomain.com/insatll/index.php.
+4. Go to your website, and you will be redirected to the Smart installer. If not, you should run the installer script manually by entering your full site url followed by /install/. Example: http://www.yourdomain.com/insatll/
 
 5. Complete the setup process by following all on-screen prompts.
 

@@ -1,4 +1,16 @@
 <?php
+/*-------------------------------------------------------+
+| AneCMS
+| Copyright (C) 2010
+| http://anecms.com
++--------------------------------------------------------+
+| Filename: index.php
+| Author: Gonçalo Margalho
++--------------------------------------------------------+
+| Removal of this copyright header is strictly 
+| prohibited without written permission from 
+| Gonçalo Margalho.
++--------------------------------------------------------*/
 session_start();
 if(isset($_SESSION['langa']))
   $la = $_SESSION['langa'];

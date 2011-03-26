@@ -10,13 +10,13 @@ Before installing AneCMS you need to create a MySQL database. You can do this vi
 
 3. Unless you run AneCMS on a local server, in most cases you will need to CHMOD the following files and folders to 777:
 
-{{{{{{{
+./tmp/	
+./modules/	
+./acp/skins/admintasia/	
+./skins/default/	
+./lang/en/main.php/	
+./lang/en/admin.php/
 
-
-FILES HERE
-
-
-}}}}}}}}}
 Note: Some hosts doesn't allow CHMOD 777, in that case you can use CHMOD 755 if CHMOD 777 fails.
 
 4. Go to your website, and you will be redirected to the Smart installer. If not, you should run the installer script manually by entering your full site url followed by /install/. Example: http://www.yourdomain.com/insatll/
